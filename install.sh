@@ -33,8 +33,9 @@ git clone git://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/zs
 echo
 echo
 echo "Installing vim's configuration..."
-mkdir ~/.vundle  # ~/.vim/bundle should be pre-linked to ~/.vundle
+mkdir ~/.vundle
 ln -s $CONFIGS_DIRNAME/vimrc ~/.vimrc
 ln -s $CONFIGS_DIRNAME/vim ~/.vim
+ln -s $CONFIGS_DIRNAME/vim/bundle ~/.vundle
 git clone https://github.com/gmarik/Vundle.vim.git ~/.vundle/Vundle.vim
 vim +PluginInstall +qall
