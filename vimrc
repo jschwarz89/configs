@@ -6,8 +6,8 @@ syntax on
 colorscheme ron
 
 filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim/
+call vundle#begin()
 
 " let Vundle manage Vundle
 " required!
@@ -28,6 +28,9 @@ Bundle 'pyflakes.vim'
 
 " Airline
 Bundle 'bling/vim-airline'
+
+call vundle#end()
+
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#left_sep = ' > '
