@@ -39,3 +39,7 @@ ln -v -s $CONFIGS_DIRNAME/vim ~/.vim
 ln -v -s ~/.vundle $CONFIGS_DIRNAME/vim/bundle
 git clone https://github.com/gmarik/Vundle.vim.git ~/.vundle/Vundle.vim
 vim +PluginInstall +qall
+mkdir ~/.vim/tmp
+mkdir ~/.vim/tmp/undo
+mkdir ~/.vim/tmp/backup
+mkdir ~/.vim/tmp/swap
