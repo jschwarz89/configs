@@ -108,6 +108,8 @@ alias -g fpa='find . -name ".tox" -prune -o -name ".git" -prune -o -name "*.py" 
 alias -g fc='find . -name ".tox" -prune -o -name "tests" -prune -o -name ".git" -prune -o -name "*.[ch]" -type f -print0 | xargs -0 grep -n --color=auto'
 alias -g fh='find /usr/include -name "*.h" -type f -print0 | xargs -0 grep -n --color=auto'
 
+alias -g gitlog='git --no-pager log --pretty=oneline -n'
+
 alias -g vi='vim'
 alias -g duh='du -h -d 1'
 
@@ -117,5 +119,6 @@ alias -g cp='cp -f'
 
 alias -g zeus02='console -M conserver-01.eng.tlv.redhat.com zeus02.eng.lab.tlv.redhat.com -l jschwarz'
 
-source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 
+source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 unset LC_CTYPE
+

@@ -1,4 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
+let g:netrw_dirhist_cnt =4
 let g:netrw_dirhist_1='/Users/john/.vim/bundle/vim-airline/autoload/airline/extensions/tabline'
 let g:netrw_dirhist_2='/Users/john/openstack/neutron/neutron/tests/functional'
+let g:netrw_dirhist_3='/home/jschwarz/openstack/neutron/.git/rebase-merge'
+let g:netrw_dirhist_4='/home/jschwarz/openstack/neutron/neutron/services/qos/notification_drivers'
