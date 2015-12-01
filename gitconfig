@@ -1,0 +1,24 @@
+[user]
+	email = jschwarz@redhat.com
+	name = John Schwarz
+[push]
+	default = simple
+[alias]
+	st = status
+	ci = commit
+	branches = branch -v -a
+	unstage = reset HEAD --
+	last = log -1 HEAD
+	visual = !gitk
+[core]
+    editor = vimx
+	excludesfile = ~/.gitignore
+[diff]
+	tool = vimdiff
+[difftool]
+	prompt = false
+[sendemail]
+	smtpencryption = tls
+	smtpserver = smtp.corp.redhat.com
+	smtpserverport = 25
+	smtpsslcertpath = 
