@@ -99,7 +99,7 @@ export PATH="/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/local
 export PATH="$PATH:/home/jschwarz/bin:/opt/local/bin"
 export GREP_COLOR="1;31"
 
-#alias -g vim="xvim"
+alias -g vim="vimx"
 alias -g grep='grep --color=auto'
 
 alias -g fa='find . -name ".tox" -prune -o -name "tests" -prune -o -name ".git" -prune -o -name "*" -type f -print0 | xargs -0 grep -n --color=auto'
