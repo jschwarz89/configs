@@ -23,6 +23,13 @@ popd > /dev/null
 
 echo
 echo
+echo "Installing some common configuration files (bash, git...)"
+ln -v -s $CONFIGS_DIRNAME/bashrc ~/.bashrc
+ln -v -s $CONFIGS_DIRNAME/gitconfig ~/.gitconfig
+ln -v -s $CONFIGS_DIRNAME/gitignore ~/.gitignore
+
+echo
+echo
 echo "Installing oh-my-zsh... Please exit the new shell that is created!!!"
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 rm ~/.zshrc
