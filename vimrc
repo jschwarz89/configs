@@ -20,7 +20,9 @@ Bundle 'FuzzyFinder'
 " General - change surrounding..., three way merger, tab completion, marks toggle
 Bundle 'https://github.com/scrooloose/nerdcommenter.git'
 Bundle 'Splice'
-Bundle 'SuperTab'
+" Bundle 'SuperTab'
+Bundle 'https://github.com/Shougo/neocomplete.vim'
+Bundle 'https://github.com/davidhalter/jedi-vim'
 
 " Python
 Bundle 'pyflakes'
@@ -30,6 +32,49 @@ Bundle 'pyflakes.vim'
 Bundle 'bling/vim-airline'
 
 call vundle#end()
+
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#enable_auto_delimiter = 1
+let g:neocomplete#max_list = 15
+let g:neocomplete#enable_auto_close_preview = 1
+let g:neocomplete#data_directory='~/.vim/.cache/neocomplete'
+
+let g:neocomplete#sources#omni#functions = {}
+let g:neocomplete#sources#omni#functions.python = 'jedi#completions'
+let g:neocomplete#force_overwrite_completefunc = 1
+autocmd FileType python setlocal omnifunc=jedi#completions
+
+let g:jedi#completions_enabled = 0
+let g:jedi#auto_vim_configuration = 0
+let g:neocomplete#force_omni_input_patterns = {}
+let g:neocomplete#force_omni_input_patterns.python =
+            \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+inoremap <expr> <C-g> neocomplete#undo_completion()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return neocomplete#close_popup() . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+endfunction
+inoremap <expr> <C-y> neocomplete#smart_close_popup()
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
+
+" <TAB>: completion.
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+" Close popup by <Space>.
+inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
@@ -77,6 +122,7 @@ set smartindent
 set tabstop=4
 set shiftwidth=4
 set expandtab
+set completeopt-=preview
 
 au BufRead,BufNewFile *.rst setlocal spell
 au BufRead,BufNewFile *COMMIT_*MSG setlocal spell
@@ -148,12 +194,12 @@ let g:fuf_file_exclude = '\v\~$|\.o$|\.bak$|\.swp$|\.class$|\.git/$'
 set tags+=/home/john/.vim/tags
 
 "let g:SuperTabDefaultCompletionType = 'context'
-let g:SuperTabLongestHighlight = 1
-if has("autocmd")
-    autocmd FileType java set completeopt-=preview
-    autocmd Filetype java setlocal omnifunc=javacomplete#Complete
-    autocmd Filetype java setlocal completefunc=javacomplete#CompleteParamsInfo
-endif
+"let g:SuperTabLongestHighlight = 1
+"if has("autocmd")
+"    autocmd FileType java set completeopt-=preview
+"    autocmd Filetype java setlocal omnifunc=javacomplete#Complete
+"    autocmd Filetype java setlocal completefunc=javacomplete#CompleteParamsInfo
+"endif
 
 au VimResized * exe "normal! \<c-w>="
 
