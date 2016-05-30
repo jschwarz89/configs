@@ -85,6 +85,8 @@ au BufRead,BufNewFile * if &ft == 'python' | set keywordprg=pydoc | endif
 au BufRead,BufNewFile *.jack setlocal filetype=java
 
 cmap w!! w !sudo tee % >/dev/null
+cmap Qa :qa
+cmap Qa! :qa!
 command! W :w
 command! Q :q
 
