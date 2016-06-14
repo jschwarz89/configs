@@ -72,7 +72,6 @@ set cindent
 set cino=L,:0,b1,t0,(s,U1,m1
 set cink+=*;
 set laststatus=2
-" set statusline=\[%n\]\ \%<%f\ %h%m%r\ %y%=%{v:register}\ %-14.(%l,%c%V%)\ %P
 set smartindent
 set tabstop=4
 set shiftwidth=4
@@ -83,6 +82,17 @@ au BufRead,BufNewFile *COMMIT_*MSG setlocal spell
 au BufRead,BufNewFile * if &ft == 'python' | set ed | endif
 au BufRead,BufNewFile * if &ft == 'python' | set keywordprg=pydoc | endif
 au BufRead,BufNewFile *.jack setlocal filetype=java
+
+au BufRead,BufNewFile *COMMIT_*MSG let b:is_commit=1
+
+fun! SetTextwidth()
+    if exists('b:is_commit')
+        setlocal textwidth=72
+    else
+        setlocal textwidth=79
+    endif
+endfun
+au BufRead,BufNewFile * call SetTextwidth()
 
 cmap w!! w !sudo tee % >/dev/null
 cmap Qa :qa
