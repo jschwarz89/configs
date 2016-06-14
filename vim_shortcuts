@@ -1,0 +1,49 @@
+"+p - paste from clipboard (+ is the clipboard register)
+
+\gl - vimgrep last expression
+\gw - vimgrep current word under cursor
+
+{ - goto previous paragraph
+} - goto next paragraph
+% - goto other bracket
+
+H - move to top of screen
+M - move to middle of screen
+L - move to bottom of screen
+
+m< and m> - set gv bouneries
+gv - goto last yank region
+gb - goto last paste region
+gf - goto file
+ga - display dec/hex/oct value
+
+gi - insert mode at last change
+g; - traverse changelist backword
+g, - traverse changelist forward
+
+gUU - uppercase line
+
+* - find next word
+# - find last word
+
+~ - toggle case
+
+cb[{ - change brackets from [ to {
+dib - delete inner brackets
+dsb - delete surrounding brackets
+dsB - delete surrounding brackets {
+
+ctrl+] - find tag from ctags
+
+ctrl+o - jump backward in jumplist
+ctrl+i - jump forward in jumplist
+m' - add current position to jumplist
+
+gql - cut long lines to next lines
+
+# In insert mode
+ctrl+o - insert mode to normal mode for one command
+ctrl+a - insert mode to normal mode for one command
+ctrl+r ctrl+r - paste from "+
+
+:+xt. - yank relative line +x to next line

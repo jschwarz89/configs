@@ -98,7 +98,13 @@ highlight ColorColumn ctermbg=235 guibg=#2c2d27
 highlight CursorLineNr ctermfg=255
 highlight LineNr ctermfg=grey
 
-cmap w!! w !sudo tee % >/dev/null
+cmap w!! W|
+command! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
+augroup MyNoReadOnly
+  autocmd!
+  autocmd BufRead * setlocal noreadonly
+augroup END
+
 cmap Qa :qa
 cmap Qa! :qa!
 command! W :w
@@ -121,6 +127,9 @@ nmap <Leader>r :FufRenewCache<CR>
 nnoremap <F2> :!ctags --recurse=yes --line-directives=yes --exclude=.tox --exclude=.git<CR>
 
 inoremap <silent> <C-a> <C-o>
+
+nmap <leader>yy :%y+<CR>
+nmap <leader>dd :%d+<CR>
 
 ia #d #define
 ia #i #include
@@ -170,12 +179,19 @@ set hlsearch
 noremap <leader><space> :noh<CR>:call clearmatches()<CR>
 noremap <leader>hs :set hlsearch<CR>
 
-nnoremap # #zzzv
-nnoremap * *zzzv
-nnoremap n nzzzv
-nnoremap N Nzzzv
+nnoremap # :normal! #zzzv<CR>
+nnoremap * :normal! *zzzv<CR>
+nnoremap n :normal! nzzzv<CR>
+nnoremap N :normal! Nzzzv<CR>
+nnoremap G :normal! Gzz<CR>
 
-nnoremap <silent> <leader>/ :execute 'vimgrep /'.@/.'/g %'<CR>:copen<cr>
+nnoremap <expr> k (v:count > 1 ? "m'" . v:count : "") . 'k'
+nnoremap <expr> j (v:count > 1 ? "m'" . v:count : "") . 'j'
+nnoremap <expr> <up> (v:count > 1 ? "m'" . v:count : "") . 'k'
+nnoremap <expr> <down> (v:count > 1 ? "m'" . v:count : "") . 'j'
+
+nnoremap <silent> <leader>gl :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR><C-w><C-p><C-o><C-w><C-p>
+nnoremap <silent> <leader>gw :execute 'vimgrep /' . expand('<cword>') . '/g %'<CR>:copen<CR><C-w><C-p><C-o><C-w><C-p>
 
 function! HiInterestingWord(n, is_visual)
     let view = winsaveview()
@@ -222,3 +238,5 @@ command Tracebacko :normal oimport traceback;traceback.print_stack()<ESC>
 command TracebackO :normal Oimport traceback;traceback.print_stack()<ESC>
 nnoremap <silent> <leader>o :Tracebacko<CR>
 nnoremap <silent> <leader>O :TracebackO<CR>
+
+inoremap <C-r><C-r> <C-r>*
