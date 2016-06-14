@@ -84,7 +84,6 @@ au BufRead,BufNewFile * if &ft == 'python' | set keywordprg=pydoc | endif
 au BufRead,BufNewFile *.jack setlocal filetype=java
 
 au BufRead,BufNewFile *COMMIT_*MSG let b:is_commit=1
-
 fun! SetTextwidth()
     if exists('b:is_commit')
         setlocal textwidth=72
@@ -94,22 +93,22 @@ fun! SetTextwidth()
 endfun
 au BufRead,BufNewFile * call SetTextwidth()
 
+let &colorcolumn="80,".join(range(120,999),",")
+highlight ColorColumn ctermbg=235 guibg=#2c2d27
+highlight CursorLineNr ctermfg=255
+highlight LineNr ctermfg=grey
+
 cmap w!! w !sudo tee % >/dev/null
 cmap Qa :qa
 cmap Qa! :qa!
 command! W :w
 command! Q :q
 
-map Q q
-map Y y$
-map v$ v$h
+cmap Q q
+cmap Y y$
+cmap v$ v$h
 
 nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
-
-map <c-K> m`o<Esc>"_cc<Esc>"
-map <c-J> m`O<Esc>"_cc<Esc>"
-map <c-L> i <Esc>l
-map <c-H> a <Esc>h
 
 map <Leader>tt :tabnew<CR>
 map <Leader>tc :tabclose<CR>
@@ -120,6 +119,8 @@ map <Leader>tp :tabprevious<CR>
 nmap <F3> :FufFileWithCurrentBufferDir<CR>
 nmap <Leader>r :FufRenewCache<CR>
 nnoremap <F2> :!ctags --recurse=yes --line-directives=yes --exclude=.tox --exclude=.git<CR>
+
+inoremap <silent> <C-a> <C-o>
 
 ia #d #define
 ia #i #include
@@ -143,16 +144,6 @@ command! Bs :call BufSel()<CR>
 nnoremap <Leader>l :Bs<CR>
 nnoremap <Leader><C-b> :Bs<CR>
 
-"nnoremap <Leader>1 :1b<CR>
-"nnoremap <Leader>2 :2b<CR>
-"nnoremap <Leader>3 :3b<CR>
-"nnoremap <Leader>4 :4b<CR>
-"nnoremap <Leader>5 :5b<CR>
-"nnoremap <Leader>6 :6b<CR>
-"nnoremap <Leader>7 :7b<CR>
-"nnoremap <Leader>8 :8b<CR>
-"nnoremap <Leader>9 :9b<CR>
-"nnoremap <Leader>0 :10b<CR>
 
 let g:fuf_file_exclude = '\v\~$|\.o$|\.bak$|\.swp$|\.class$|\.git/$'
 
@@ -231,11 +222,3 @@ command Tracebacko :normal oimport traceback;traceback.print_stack()<ESC>
 command TracebackO :normal Oimport traceback;traceback.print_stack()<ESC>
 nnoremap <silent> <leader>o :Tracebacko<CR>
 nnoremap <silent> <leader>O :TracebackO<CR>
-
-let &colorcolumn="80,".join(range(120,999),",")
-highlight ColorColumn ctermbg=235 guibg=#2c2d27
-
-highlight LineNr ctermfg=grey
-highlight CursorLineNr ctermfg=255
-
-inoremap <silent> <C-a> <C-o>
