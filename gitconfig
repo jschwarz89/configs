@@ -11,7 +11,7 @@
 	last = log -1 HEAD
 	visual = !gitk
 [core]
-    editor = vimx
+    editor = nvim
 	excludesfile = ~/.gitignore
 [diff]
 	tool = vimdiff
