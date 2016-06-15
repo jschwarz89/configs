@@ -52,7 +52,7 @@ bash /tmp/neobundle.sh
 echo "set runtimepath^=$HOME/.vim/bundle/neobundle.vim/" > ~/.config/nvim/paths.vim
 echo "call neobundle#begin(expand('$HOME/.vim/bundle'))" >> ~/.config/nvim/paths.vim
 
-vim +PluginInstall +UpdateRemotePlugins +qall
+nvim +PluginInstall +UpdateRemotePlugins +qall
 
 mkdir ~/.vim/tmp
 mkdir ~/.vim/tmp/undo
