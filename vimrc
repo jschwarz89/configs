@@ -7,30 +7,42 @@ let g:load_linuxsty = 1
 syntax on
 colorscheme ron
 
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim/
-call vundle#begin()
+if &compatible
+  set nocompatible               " Be iMproved
+endif
 
-" let Vundle manage Vundle
-" required!
-Bundle 'gmarik/vundle'
+
+" Required:
+source ~/.config/nvim/paths.vim
+
+" Let NeoBundle manage NeoBundle
+" Required:
+NeoBundleFetch 'Shougo/neobundle.vim'
 
 " Bundles!! :)
-Bundle 'L9'
-Bundle 'FuzzyFinder'
+NeoBundle 'L9'
+NeoBundle 'FuzzyFinder'
 
 " General - change surrounding..., three way merger, tab completion, marks toggle
-Bundle 'https://github.com/scrooloose/nerdcommenter.git'
-Bundle 'Splice'
-Bundle 'https://github.com/Shougo/deoplete.nvim'
+NeoBundle 'scrooloose/nerdcommenter.git'
+NeoBundle 'Splice'
+NeoBundle 'Shougo/deoplete.nvim'
 
 " Python
-Bundle 'andviro/flake8-vim'
+NeoBundle 'andviro/flake8-vim', {
+\  'lazy' : 1,
+\  'autoload' : {
+\    'filetypes' : ['python']
+\  }
+\}
 
 " Airline
-Bundle 'bling/vim-airline'
+NeoBundle 'bling/vim-airline'
 
-call vundle#end()
+" Required:
+call neobundle#end()
+filetype plugin indent on
+
 
 let g:deoplete#enable_at_startup = 1
 " Bindings to make deoplete work like SuperTab :)
@@ -41,12 +53,10 @@ fu! <SID>SuperTab(command)
 if (strpart(getline('.'),col('.')-2,1)=~'^\s\?$')
   return "\<Tab>"
 else
-  if a:command == 'p' && g:complType == "\<C-P>"
-    return "\<C-N>"
-  endif
-  return g:complType
+  return "\<C-N>"
 endif
 endf
+
 
 " PyFlakes configurations
 let g:PyFlakeOnWrite = 1

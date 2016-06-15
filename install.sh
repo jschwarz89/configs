@@ -8,7 +8,6 @@ mv -v ~/.zshrc $BACKUP_DIR
 mv -v ~/.oh-my-zsh $BACKUP_DIR
 mv -v ~/.vimrc $BACKUP_DIR
 mv -v ~/.vim $BACKUP_DIR
-mv -v ~/.vundle $BACKUP_DIR
 
 echo "I assume you're running Fedora. If not, you'll need to install neovim "
 echo "and zsh on your own!"
@@ -40,16 +39,21 @@ git clone git://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/zs
 echo
 echo
 echo "Installing vim's configuration..."
-mkdir ~/.vundle
 ln -v -s $CONFIGS_DIRNAME/vim ~/.vim
 ln -v -s $CONFIGS_DIRNAME/vimrc ~/.vimrc
-ln -v -s ~/.vundle $CONFIGS_DIRNAME/vim/bundle
 ln -v -s $CONFIGS_DIRNAME/vim ~/.config/nvim
 ln -v -s $CONFIGS_DIRNAME/vimrc ~/.config/nvim/init.vim
-git clone https://github.com/gmarik/Vundle.vim.git ~/.vundle/Vundle.vim
+
 sudo pip install neovim
 sudo pip3 install neovim
+
+curl https://raw.githubusercontent.com/Shougo/neobundle.vim/master/bin/install.sh > /tmp/neobundle.sh
+bash /tmp/neobundle.sh
+echo "set runtimepath^=$HOME/.vim/bundle/neobundle.vim/" > ~/.config/nvim/paths.vim
+echo "call neobundle#begin(expand('$HOME/.vim/bundle'))" >> ~/.config/nvim/paths.vim
+
 vim +PluginInstall +UpdateRemotePlugins +qall
+
 mkdir ~/.vim/tmp
 mkdir ~/.vim/tmp/undo
 mkdir ~/.vim/tmp/backup
