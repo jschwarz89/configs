@@ -171,8 +171,6 @@ nmap <F3> :FufFileWithCurrentBufferDir<CR>
 nmap <Leader>r :FufRenewCache<CR>
 nnoremap <F2> :!ctags --recurse=yes --line-directives=yes --exclude=.tox --exclude=.git<CR>
 
-inoremap <silent> <C-a> <C-o>
-
 nmap <leader>yy :%y+<CR>
 nmap <leader>dd :%d+<CR>
 
@@ -228,7 +226,7 @@ nnoremap # :normal! #zzzv<CR>
 nnoremap * :normal! *zzzv<CR>
 nnoremap n :normal! nzzzv<CR>
 nnoremap N :normal! Nzzzv<CR>
-nnoremap <expr> G '<C-U>:normal!' . (v:count > 0 ? v:count : '') . 'Gzz<CR>'
+nnoremap G :normal! Gzz<CR>
 
 nnoremap <expr> k (v:count > 1 ? "m'" . v:count : "") . 'k'
 nnoremap <expr> j (v:count > 1 ? "m'" . v:count : "") . 'j'
