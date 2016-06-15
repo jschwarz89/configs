@@ -6,8 +6,7 @@ echo "-- $BACKUP_DIR"
 mkdir $BACKUP_DIR
 mv -v ~/.zshrc $BACKUP_DIR
 mv -v ~/.oh-my-zsh $BACKUP_DIR
-mv -v ~/.vimrc $BACKUP_DIR
-mv -v ~/.vim $BACKUP_DIR
+mv -v ~/.config/nvim $BACKUP_DIR
 
 echo "I assume you're running Fedora. If not, you'll need to install neovim "
 echo "and zsh on your own!"
