@@ -1,5 +1,7 @@
 "+p - paste from clipboard (+ is the clipboard register)
 
+\te - open terminal
+
 \gl - vimgrep last expression
 \gw - vimgrep current word under cursor
 
