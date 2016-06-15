@@ -103,7 +103,8 @@ alias -g vi='vim'
 if [ `uname` != "Darwin" ]; then
     alias vim="vimx -O"
 else
-    alias vim="vim -O"
+    export TERM=xterm-256color
+    alias vim="nvim -O"
 fi
 
 alias grep='grep --color=auto'

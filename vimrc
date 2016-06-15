@@ -23,13 +23,18 @@ Bundle 'Splice'
 Bundle 'SuperTab'
 
 " Python
-Bundle 'pyflakes'
-Bundle 'pyflakes.vim'
+Bundle 'andviro/flake8-vim'
 
 " Airline
 Bundle 'bling/vim-airline'
 
 call vundle#end()
+
+let g:PyFlakeOnWrite = 1
+let g:PyFlakeCheckers = 'pep8'
+let g:PyFlakeDisabledMessages = 'E125,E126,E128,E129,E265,E309,H404,H405'
+let g:PyFlakeCWindow = 0
+let g:PyFlakeMaxLineLength = 80
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
@@ -52,7 +57,6 @@ set nowrap
 set suffixes+=.pyc
 set mouse=a
 set background=dark
-set t_Co=256
 set number
 set relativenumber
 set showcmd
@@ -60,7 +64,6 @@ set showmatch
 set autowrite
 set hidden
 set equalalways
-set vb t_vb=".
 set ruler
 set ic
 set scs
@@ -76,13 +79,20 @@ set smartindent
 set tabstop=4
 set shiftwidth=4
 set expandtab
+set vb
+
+if !has('nvim')
+    set t_Co=256
+    set t_vb=".
+endif
 
 au BufRead,BufNewFile *.rst setlocal spell
 au BufRead,BufNewFile *COMMIT_*MSG setlocal spell
-au BufRead,BufNewFile * if &ft == 'python' | set ed | endif
 au BufRead,BufNewFile * if &ft == 'python' | set keywordprg=pydoc | endif
 au BufRead,BufNewFile *.jack setlocal filetype=java
 
+" Allow wrapping automatically when reaching more than 79 chars, except in
+" git commit
 au BufRead,BufNewFile *COMMIT_*MSG let b:is_commit=1
 fun! SetTextwidth()
     if exists('b:is_commit')
@@ -93,10 +103,15 @@ fun! SetTextwidth()
 endfun
 au BufRead,BufNewFile * call SetTextwidth()
 
+" Colors for 80-chars-per-line column
 let &colorcolumn="80,".join(range(120,999),",")
 highlight ColorColumn ctermbg=235 guibg=#2c2d27
 highlight CursorLineNr ctermfg=255
 highlight LineNr ctermfg=grey
+
+" Colors for sign column (pyflakes)
+highlight SignColumn ctermbg=red
+highlight SignColumn ctermfg=white
 
 cmap w!! W|
 command! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
