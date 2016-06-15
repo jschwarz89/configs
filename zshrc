@@ -101,28 +101,28 @@ export GREP_COLOR="1;31"
 
 alias -g vi='vim'
 if [ `uname` != "Darwin" ]; then
-    alias -g vim="vimx -O"
+    alias vim="vimx -O"
 else
-    alias -g vim="vim -O"
+    alias vim="vim -O"
 fi
 
-alias -g grep='grep --color=auto'
+alias grep='grep --color=auto'
 
-alias -g fa='find . -name ".tox" -prune -o -name "tests" -prune -o -name ".git" -prune -o -name "*" -type f -print0 | xargs -0 grep -n --color=auto'
-alias -g fp='find . -name ".tox" -prune -o -name "tests" -prune -o -name ".git" -prune -o -name "*.py" -type f -print0 | xargs -0 grep -n --color=auto'
-alias -g fpa='find . -name ".tox" -prune -o -name ".git" -prune -o -name "*.py" -type f -print0 | xargs -0 grep -n --color=auto'
-alias -g fc='find . -name ".tox" -prune -o -name "tests" -prune -o -name ".git" -prune -o -name "*.[ch]" -type f -print0 | xargs -0 grep -n --color=auto'
-alias -g fh='find /usr/include -name "*.h" -type f -print0 | xargs -0 grep -n --color=auto'
+alias fa='find . -name ".tox" -prune -o -name "tests" -prune -o -name ".git" -prune -o -name "*" -type f -print0 | xargs -0 grep -n --color=auto'
+alias fp='find . -name ".tox" -prune -o -name "tests" -prune -o -name ".git" -prune -o -name "*.py" -type f -print0 | xargs -0 grep -n --color=auto'
+alias fpa='find . -name ".tox" -prune -o -name ".git" -prune -o -name "*.py" -type f -print0 | xargs -0 grep -n --color=auto'
+alias fc='find . -name ".tox" -prune -o -name "tests" -prune -o -name ".git" -prune -o -name "*.[ch]" -type f -print0 | xargs -0 grep -n --color=auto'
+alias fh='find /usr/include -name "*.h" -type f -print0 | xargs -0 grep -n --color=auto'
 
-alias -g gitlog='git --no-pager log --pretty=oneline -n'
+alias gitlog='git --no-pager log --pretty=oneline -n'
 
-alias -g duh='du -h -d 1'
+alias duh='du -h -d 1'
 
-alias -g rm='rm -f'
-alias -g mv='mv -f'
-alias -g cp='cp -f'
+alias rm='rm -f'
+alias mv='mv -f'
+alias cp='cp -f'
 
-alias -g zeus02='console -M conserver-01.eng.tlv.redhat.com zeus02.eng.lab.tlv.redhat.com -l jschwarz'
+alias zeus02='console -M conserver-01.eng.tlv.redhat.com zeus02.eng.lab.tlv.redhat.com -l jschwarz'
 
 source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 unset LC_CTYPE
