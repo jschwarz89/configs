@@ -1,5 +1,7 @@
 vim/tmp/*
 vim/bundle
 vim/.netrwhist
+
 vim/init.vim
 vim/paths.vim
+vim/.init.vim-rplugin~
