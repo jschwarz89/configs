@@ -12,7 +12,7 @@ mv -v ~/.vundle $BACKUP_DIR
 
 echo "I assume you're running Fedora. If not, you'll need to install neovim "
 echo "and zsh on your own!"
-dnf install -y neovim zsh python3-pip
+dnf install -y neovim zsh python3-pip python3-devel
 
 echo
 echo
