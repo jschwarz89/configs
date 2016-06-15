@@ -101,7 +101,8 @@ export GREP_COLOR="1;31"
 
 alias vi='nvim -O'
 alias vim="nvim -O"
-if [ `uname` == "Darwin" ]; then
+
+if [ `uname` = "Darwin" ]; then
     export TERM=xterm-256color
 fi
 
