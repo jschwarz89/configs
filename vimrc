@@ -283,3 +283,7 @@ nnoremap <silent> <leader>o :Tracebacko<CR>
 nnoremap <silent> <leader>O :TracebackO<CR>
 
 inoremap <C-r><C-r> <C-r>*
+
+" Terminal support! :>
+let g:terminal_scrollback_buffer_size=100000
+tnoremap <Esc> <C-\><C-n>
