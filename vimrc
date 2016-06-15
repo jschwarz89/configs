@@ -1,3 +1,5 @@
+let g:python3_host_prog = '/usr/local/bin/python3'
+
 source $VIMRUNTIME/vimrc_example.vim
 
 let g:load_linuxsty = 1
@@ -20,7 +22,7 @@ Bundle 'FuzzyFinder'
 " General - change surrounding..., three way merger, tab completion, marks toggle
 Bundle 'https://github.com/scrooloose/nerdcommenter.git'
 Bundle 'Splice'
-Bundle 'SuperTab'
+Bundle 'https://github.com/Shougo/deoplete.nvim'
 
 " Python
 Bundle 'andviro/flake8-vim'
@@ -30,12 +32,30 @@ Bundle 'bling/vim-airline'
 
 call vundle#end()
 
+let g:deoplete#enable_at_startup = 1
+" Bindings to make deoplete work like SuperTab :)
+im <Tab> <C-n>
+ino <C-n> <C-R>=<SID>SuperTab('n')<CR>
+ino <C-p> <C-R>=<SID>SuperTab('p')<CR>
+fu! <SID>SuperTab(command)
+if (strpart(getline('.'),col('.')-2,1)=~'^\s\?$')
+  return "\<Tab>"
+else
+  if a:command == 'p' && g:complType == "\<C-P>"
+    return "\<C-N>"
+  endif
+  return g:complType
+endif
+endf
+
+" PyFlakes configurations
 let g:PyFlakeOnWrite = 1
 let g:PyFlakeCheckers = 'pep8'
-let g:PyFlakeDisabledMessages = 'E125,E126,E128,E129,E265,E309,H404,H405'
+let g:PyFlakeDisabledMessages = 'E125,E126,E128,E129,E265,E309,H404,H405,E731'
 let g:PyFlakeCWindow = 0
 let g:PyFlakeMaxLineLength = 80
 
+" Airline configurations
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#left_sep = ' > '

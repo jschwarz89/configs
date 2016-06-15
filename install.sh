@@ -10,9 +10,9 @@ mv -v ~/.vimrc $BACKUP_DIR
 mv -v ~/.vim $BACKUP_DIR
 mv -v ~/.vundle $BACKUP_DIR
 
-echo "I assume you're running Fedora. If not, you'll need to install vim and"
-echo "zsh on your own!"
-dnf install -y vim vim-X11 zsh
+echo "I assume you're running Fedora. If not, you'll need to install neovim "
+echo "and zsh on your own!"
+dnf install -y neovim zsh python3-pip
 
 echo
 echo
@@ -47,7 +47,9 @@ ln -v -s ~/.vundle $CONFIGS_DIRNAME/vim/bundle
 ln -v -s $CONFIGS_DIRNAME/vim ~/.config/nvim
 ln -v -s $CONFIGS_DIRNAME/vimrc ~/.config/nvim/init.vim
 git clone https://github.com/gmarik/Vundle.vim.git ~/.vundle/Vundle.vim
-vim +PluginInstall +qall
+sudo pip install neovim
+sudo pip3 install neovim
+vim +PluginInstall +UpdateRemotePlugins +qall
 mkdir ~/.vim/tmp
 mkdir ~/.vim/tmp/undo
 mkdir ~/.vim/tmp/backup
