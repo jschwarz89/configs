@@ -99,12 +99,10 @@ export PATH="/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/local
 export PATH="$PATH:/home/jschwarz/bin:/opt/local/bin"
 export GREP_COLOR="1;31"
 
-alias -g vi='vim'
-if [ `uname` != "Darwin" ]; then
-    alias vim="vimx -O"
-else
+alias vi='nvim -O'
+alias vim="nvim -O"
+if [ `uname` == "Darwin" ]; then
     export TERM=xterm-256color
-    alias vim="nvim -O"
 fi
 
 alias grep='grep --color=auto'
