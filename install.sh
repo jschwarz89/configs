@@ -48,8 +48,8 @@ sudo pip3 install neovim
 
 curl https://raw.githubusercontent.com/Shougo/neobundle.vim/master/bin/install.sh > /tmp/neobundle.sh
 bash /tmp/neobundle.sh
-echo "set runtimepath^=$HOME/.vim/bundle/neobundle.vim/" > ~/.config/nvim/paths.vim
-echo "call neobundle#begin(expand('$HOME/.vim/bundle'))" >> ~/.config/nvim/paths.vim
+echo "set runtimepath^=$HOME/.config/nvim/bundle/neobundle.vim/" > ~/.config/nvim/paths.vim
+echo "call neobundle#begin(expand('$HOME/.config/nvim/bundle'))" >> ~/.config/nvim/paths.vim
 
 nvim +NeoBundleInstall +UpdateRemotePlugins +qall
 
