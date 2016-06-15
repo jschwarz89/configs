@@ -41,8 +41,6 @@ git clone git://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/zs
 echo
 echo
 echo "Installing vim's configuration..."
-ln -v -s $CONFIGS_DIRNAME/vim ~/.vim
-ln -v -s $CONFIGS_DIRNAME/vimrc ~/.vimrc
 ln -v -s $CONFIGS_DIRNAME/vim ~/.config/nvim
 ln -v -s $CONFIGS_DIRNAME/vimrc ~/.config/nvim/init.vim
 
