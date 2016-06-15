@@ -41,9 +41,11 @@ echo
 echo
 echo "Installing vim's configuration..."
 mkdir ~/.vundle
-ln -v -s $CONFIGS_DIRNAME/vimrc ~/.vimrc
 ln -v -s $CONFIGS_DIRNAME/vim ~/.vim
+ln -v -s $CONFIGS_DIRNAME/vimrc ~/.vimrc
 ln -v -s ~/.vundle $CONFIGS_DIRNAME/vim/bundle
+ln -v -s $CONFIGS_DIRNAME/vim ~/.config/nvim
+ln -v -s $CONFIGS_DIRNAME/vimrc ~/.config/nvim/init.vim
 git clone https://github.com/gmarik/Vundle.vim.git ~/.vundle/Vundle.vim
 vim +PluginInstall +qall
 mkdir ~/.vim/tmp
