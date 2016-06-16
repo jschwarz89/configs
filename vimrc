@@ -226,7 +226,7 @@ nnoremap # :normal! #zzzv<CR>
 nnoremap * :normal! *zzzv<CR>
 nnoremap n :normal! nzzzv<CR>
 nnoremap N :normal! Nzzzv<CR>
-nnoremap G :normal! Gzz<CR>
+nnoremap G Gzz
 
 nnoremap <expr> k (v:count > 1 ? "m'" . v:count : "") . 'k'
 nnoremap <expr> j (v:count > 1 ? "m'" . v:count : "") . 'j'
