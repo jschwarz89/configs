@@ -1,22 +1,22 @@
-let g:python3_host_prog = '/usr/local/bin/python3'
+" Enable folding for the vimrc ---------------------------------------------{{{
+augroup filetype_vim
+    autocmd!
+    autocmd FileType vim setlocal foldmethod=marker
+augroup END
 
-source $VIMRUNTIME/vimrc_example.vim
+" }}}
 
-let g:load_linuxsty = 1
 
-syntax on
-colorscheme ron
+" NeoBundle configuration --------------------------------------------------{{{
 
+" Required
 if &compatible
-  set nocompatible               " Be iMproved
+  set nocompatible
 endif
-
-
-" Required:
+let g:python3_host_prog = '/usr/local/bin/python3'
 source ~/.config/nvim/paths.vim
 
 " Let NeoBundle manage NeoBundle
-" Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 " Bundles!! :)
@@ -39,11 +39,17 @@ NeoBundle 'andviro/flake8-vim', {
 " Airline
 NeoBundle 'bling/vim-airline'
 
-" Required:
+" Dev Bundles
+"NeoBundle 'jschwarz89/unified-job-control'
+
 call neobundle#end()
-filetype plugin indent on
+
+" }}}
 
 
+" Plugins configurations ---------------------------------------------------{{{
+
+" Deoplete
 let g:deoplete#enable_at_startup = 1
 " Bindings to make deoplete work like SuperTab :)
 im <Tab> <C-n>
@@ -58,14 +64,14 @@ endif
 endf
 
 
-" PyFlakes configurations
+" PyFlakes
 let g:PyFlakeOnWrite = 1
 let g:PyFlakeCheckers = 'pep8'
 let g:PyFlakeDisabledMessages = 'E125,E126,E128,E129,E265,E309,H404,H405,E731'
 let g:PyFlakeCWindow = 0
 let g:PyFlakeMaxLineLength = 80
 
-" Airline configurations
+" Airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#left_sep = ' > '
@@ -81,7 +87,20 @@ nmap <leader>7 <Plug>AirlineSelectTab7
 nmap <leader>8 <Plug>AirlineSelectTab8
 nmap <leader>9 <Plug>AirlineSelectTab9
 
-filetype plugin indent on     " required!
+" FuzzyFinder
+let g:fuf_file_exclude = '\v\~$|\.o$|\.bak$|\.swp$|\.class$|\.git/$'
+nmap <F3> :FufFileWithCurrentBufferDir<CR>
+nmap <Leader>r :FufRenewCache<CR>
+
+" }}}
+
+
+" Common settings --------------------------------------------------------- {{{
+
+filetype plugin indent on
+
+syntax on
+colorscheme ron
 
 set nowrap
 set suffixes+=.pyc
@@ -110,16 +129,30 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 set vb
+set undodir=~/.config/nvim/tmp/undo//
+set backupdir=~/.config/nvim/tmp/backup//
+set directory=~/.config/nvim/tmp/swap//
+set backup
+set noswapfile
 
+set hlsearch
 if !has('nvim')
     set t_Co=256
     set t_vb=".
 endif
 
+" Linux Kernel development variables - set to 1 to enable
+let g:load_linuxsty = 0
+
+" Resize => rearrange windows
+au VimResized * exe "normal! \<c-w>="
+
+" Spelling for commits/rst files
 au BufRead,BufNewFile *.rst setlocal spell
 au BufRead,BufNewFile *COMMIT_*MSG setlocal spell
+
 au BufRead,BufNewFile * if &ft == 'python' | set keywordprg=pydoc | endif
-au BufRead,BufNewFile *.jack setlocal filetype=java
+au BufRead,BufNewFile *.jack setlocal filetype=java " nand2tetris
 
 " Allow wrapping automatically when reaching more than 79 chars, except in
 " git commit
@@ -133,8 +166,13 @@ fun! SetTextwidth()
 endfun
 au BufRead,BufNewFile * call SetTextwidth()
 
+" }}}
+
+
+" Columns and colorings --------------------------------------------------- {{{
+
 " Colors for 80-chars-per-line column
-let &colorcolumn="80,".join(range(120,999),",")
+let &colorcolumn="80"
 highlight ColorColumn ctermbg=235 guibg=#2c2d27
 highlight CursorLineNr ctermfg=255
 highlight LineNr ctermfg=grey
@@ -142,7 +180,12 @@ highlight LineNr ctermfg=grey
 " Colors for sign column (pyflakes)
 highlight SignColumn ctermbg=red
 highlight SignColumn ctermfg=white
+" }}}
 
+
+" Key Mappings ------------------------------------------------------------ {{{
+
+" sudo write file with no warnings
 cmap w!! W|
 command! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
 augroup MyNoReadOnly
@@ -150,36 +193,81 @@ augroup MyNoReadOnly
   autocmd BufRead * setlocal noreadonly
 augroup END
 
-cmap Qa :qa
-cmap Qa! :qa!
-command! W :w
+" common typos
+cmap Qa qa
+cmap Qa! qa!
 command! Q :q
-
-cmap Q q
+command! W :w
 cmap Y y$
 cmap v$ v$h
 
+" visual on last pasted region
 nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
 
+" tabs
 map <Leader>tt :tabnew<CR>
 map <Leader>tc :tabclose<CR>
 map <Leader>tm :tabmove<CR>
 map <Leader>tn :tabnext<CR>
 map <Leader>tp :tabprevious<CR>
 
-nmap <F3> :FufFileWithCurrentBufferDir<CR>
-nmap <Leader>r :FufRenewCache<CR>
+" ctags for the riches
 nnoremap <F2> :!ctags --recurse=yes --line-directives=yes --exclude=.tox --exclude=.git<CR>
 
+" yank entire files
 nmap <leader>yy :%y+<CR>
 nmap <leader>dd :%d+<CR>
 
-ia #d #define
-ia #i #include
+" clear searches and re-set them
+noremap <leader><space> :noh<CR>:call clearmatches()<CR>
+noremap <leader>hs :set hlsearch<CR>
 
-let g:EasyMotion_leader_key = '<Leader>'
-let g:EasyMotion_mapping_j = '<Leader><Leader>j'
-let g:EasyMotion_mapping_k = '<Leader><Leader>kj'
+" make sure searches places result in center
+nnoremap # :normal! #zzzv<CR>
+nnoremap * :normal! *zzzv<CR>
+nnoremap n :normal! nzzzv<CR>
+nnoremap N :normal! Nzzzv<CR>
+nnoremap G Gzz
+
+" traversing up and down should modify context mark
+nnoremap <expr> k (v:count > 1 ? "m'" . v:count : "") . 'k'
+nnoremap <expr> j (v:count > 1 ? "m'" . v:count : "") . 'j'
+nnoremap <expr> <up> (v:count > 1 ? "m'" . v:count : "") . 'k'
+nnoremap <expr> <down> (v:count > 1 ? "m'" . v:count : "") . 'j'
+
+" vimgrep
+nnoremap <silent> <leader>gl :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR><C-w><C-p><C-o><C-w><C-p>
+nnoremap <silent> <leader>gw :execute 'vimgrep /' . expand('<cword>') . '/g %'<CR>:copen<CR><C-w><C-p><C-o><C-w><C-p>
+
+" pdb / traceback bindings
+command Pdbp :normal oimport ipdb;ipdb.set_trace()<ESC>
+command PdbP :normal Oimport ipdb;ipdb.set_trace()<ESC>
+nnoremap <silent> <leader>p :Pdbp<CR>
+nnoremap <silent> <leader>P :PdbP<CR>
+
+command Tracebacko :normal oimport traceback;traceback.print_stack()<ESC>
+command TracebackO :normal Oimport traceback;traceback.print_stack()<ESC>
+nnoremap <silent> <leader>o :Tracebacko<CR>
+nnoremap <silent> <leader>O :TracebackO<CR>
+
+" use C-r C-r to paste from "+
+inoremap <C-r><C-r> <C-r>*
+
+" terminal support! :>
+let g:terminal_scrollback_buffer_size=100000
+tnoremap <Esc> <C-\><C-n>
+nnoremap <leader>te :terminal<CR>
+
+" disable bad habits
+map <up> <nop>
+map <down> <nop>
+map <left> <nop>
+map <right> <nop>
+
+" }}}
+
+
+" Buffer Switching -------------------------------------------------------- {{{
 
 function! BufSel()
 	execute ":buffers"
@@ -196,46 +284,10 @@ command! Bs :call BufSel()<CR>
 nnoremap <Leader>l :Bs<CR>
 nnoremap <Leader><C-b> :Bs<CR>
 
+" }}}
 
-let g:fuf_file_exclude = '\v\~$|\.o$|\.bak$|\.swp$|\.class$|\.git/$'
 
-" Java!
-set tags+=/home/john/.vim/tags
-
-"let g:SuperTabDefaultCompletionType = 'context'
-let g:SuperTabLongestHighlight = 1
-if has("autocmd")
-    autocmd FileType java set completeopt-=preview
-    autocmd Filetype java setlocal omnifunc=javacomplete#Complete
-    autocmd Filetype java setlocal completefunc=javacomplete#CompleteParamsInfo
-endif
-
-au VimResized * exe "normal! \<c-w>="
-
-set undodir=~/.config/nvim/tmp/undo//
-set backupdir=~/.config/nvim/tmp/backup//
-set directory=~/.config/nvim/tmp/swap//
-set backup
-set noswapfile
-
-set hlsearch
-noremap <leader><space> :noh<CR>:call clearmatches()<CR>
-noremap <leader>hs :set hlsearch<CR>
-
-nnoremap # :normal! #zzzv<CR>
-nnoremap * :normal! *zzzv<CR>
-nnoremap n :normal! nzzzv<CR>
-nnoremap N :normal! Nzzzv<CR>
-nnoremap G Gzz
-
-nnoremap <expr> k (v:count > 1 ? "m'" . v:count : "") . 'k'
-nnoremap <expr> j (v:count > 1 ? "m'" . v:count : "") . 'j'
-nnoremap <expr> <up> (v:count > 1 ? "m'" . v:count : "") . 'k'
-nnoremap <expr> <down> (v:count > 1 ? "m'" . v:count : "") . 'j'
-
-nnoremap <silent> <leader>gl :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR><C-w><C-p><C-o><C-w><C-p>
-nnoremap <silent> <leader>gw :execute 'vimgrep /' . expand('<cword>') . '/g %'<CR>:copen<CR><C-w><C-p><C-o><C-w><C-p>
-
+" Highlight Searches with Colors ------------------------------------------ {{{
 function! HiInterestingWord(n, is_visual)
     let view = winsaveview()
     let old_z = @z
@@ -272,19 +324,4 @@ hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#b88853 ctermbg=137
 hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
 hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
 
-command Pdbp :normal oimport ipdb;ipdb.set_trace()<ESC>
-command PdbP :normal Oimport ipdb;ipdb.set_trace()<ESC>
-nnoremap <silent> <leader>p :Pdbp<CR>
-nnoremap <silent> <leader>P :PdbP<CR>
-
-command Tracebacko :normal oimport traceback;traceback.print_stack()<ESC>
-command TracebackO :normal Oimport traceback;traceback.print_stack()<ESC>
-nnoremap <silent> <leader>o :Tracebacko<CR>
-nnoremap <silent> <leader>O :TracebackO<CR>
-
-inoremap <C-r><C-r> <C-r>*
-
-" Terminal support! :>
-let g:terminal_scrollback_buffer_size=100000
-tnoremap <Esc> <C-\><C-n>
-nnoremap <leader>te :terminal<CR>
+" }}}

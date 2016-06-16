@@ -1,5 +1,8 @@
 "+p - paste from clipboard (+ is the clipboard register)
 
+\<space> - clear highlights
+\hs - re-set highlights
+
 \te - open terminal
 
 \gl - vimgrep last expression
