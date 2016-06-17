@@ -40,7 +40,8 @@ NeoBundle 'andviro/flake8-vim', {
 NeoBundle 'bling/vim-airline'
 
 " Dev Bundles
-"NeoBundle 'jschwarz89/unified-job-control'
+NeoBundle 'prabirshrestha/async'
+NeoBundle 'jschwarz89/shared-session-vim'
 
 call neobundle#end()
 
@@ -88,7 +89,7 @@ nmap <leader>8 <Plug>AirlineSelectTab8
 nmap <leader>9 <Plug>AirlineSelectTab9
 
 " FuzzyFinder
-let g:fuf_file_exclude = '\v\~$|\.o$|\.bak$|\.swp$|\.class$|\.git/$'
+let g:fuf_file_exclude = '\v\~$|\.o$|\.bak$|\.swp$|\.class$|\.git/$|__pycache__/$|\.pyc$'
 nmap <F3> :FufFileWithCurrentBufferDir<CR>
 nmap <Leader>r :FufRenewCache<CR>
 
@@ -102,6 +103,7 @@ filetype plugin indent on
 syntax on
 colorscheme ron
 
+set modelines=0
 set nowrap
 set suffixes+=.pyc
 set mouse=a
@@ -129,9 +131,10 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 set vb
-set undodir=~/.config/nvim/tmp/undo//
-set backupdir=~/.config/nvim/tmp/backup//
-set directory=~/.config/nvim/tmp/swap//
+set undofile
+set undodir=~/.config/nvim/tmp/undo/
+set backupdir=~/.config/nvim/tmp/backup/
+set directory=~/.config/nvim/tmp/swap/
 set backup
 set noswapfile
 
@@ -227,7 +230,6 @@ nnoremap # :normal! #zzzv<CR>
 nnoremap * :normal! *zzzv<CR>
 nnoremap n :normal! nzzzv<CR>
 nnoremap N :normal! Nzzzv<CR>
-nnoremap G Gzz
 
 " traversing up and down should modify context mark
 nnoremap <expr> k (v:count > 1 ? "m'" . v:count : "") . 'k'
