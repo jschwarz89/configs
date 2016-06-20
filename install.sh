@@ -50,8 +50,17 @@ curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh >
 bash /tmp/installer.sh ~/.config/nvim/bundle
 echo "set runtimepath^=$HOME/.config/nvim/bundle/repos/github.com/Shougo/dein.vim" > ~/.config/nvim/paths.vim
 echo "call dein#begin(expand('$HOME/.config/nvim/bundle'))" >> ~/.config/nvim/paths.vim
-
-nvim +dein#install() +UpdateRemotePlugins +qall
+if [ `name` = "Darwin" ]; then
+    echo "let g:python3_host_prog = '/usr/local/bin/python3'" >> ~/.config/nvim/paths.vim
+    echo "let g:deoplete#sources#clang#libclang_path = '/usr/local/Cellar/llvm/3.6.2/lib/libclang.dylib'" >> ~/.config/nvim/paths.vim
+    echo "let g:deoplete#sources#clang#clang_header = '/usr/local/Cellar/llvm/3.6.2/include/clang'" >> ~/.config/nvim/paths.vim
+else
+    echo "let g:python3_host_prog = '/usr/bin/python3'" >> ~/.config/nvim/paths.vim
+    echo "let g:deoplete#sources#clang#libclang_path = '/usr/lib64/llvm/libclang.so'" >> ~/.config/nvim/paths.vim
+    echo "let g:deoplete#sources#clang#clang_header = '/usr/lib/clang/3.5.0'" >> ~/.config/nvim/paths.vim
+fi
+nvim +qall
+nvim +UpdateRemotePlugins +qall
 
 mkdir ~/.config/nvim/tmp
 mkdir ~/.config/nvim/tmp/undo

@@ -13,7 +13,8 @@ augroup END
 if &compatible
   set nocompatible
 endif
-let g:python3_host_prog = '/usr/local/bin/python3'
+
+" Set some paths
 source ~/.config/nvim/paths.vim
 
 " Let dein manage dein
@@ -46,6 +47,10 @@ call dein#add('jschwarz89/shared-session-vim')
 " Required:
 call dein#end()
 
+if dein#check_install()
+    call dein#install()
+endif
+
 " }}}
 
 
@@ -64,10 +69,6 @@ else
   return "\<C-N>"
 endif
 endf
-
-let g:deoplete#sources#clang#libclang_path = "/usr/local/Cellar/llvm/3.6.2/lib/libclang.dylib"
-let g:deoplete#sources#clang#clang_header = "/usr/local/Cellar/llvm/3.6.2/include/clang"
-
 
 " PyFlakes
 let g:PyFlakeOnWrite = 1
