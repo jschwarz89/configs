@@ -12,7 +12,7 @@ echo "I assume you're running Fedora. If not, you'll need to install neovim "
 echo "and zsh on your own!"
 sudo dnf -y install dnf-plugins-core
 sudo dnf -y copr enable dperson/neovim
-sudo dnf -y install neovim zsh python3-pip python3-devel
+sudo dnf -y install neovim zsh python3-pip python3-devel clang clang-devel
 
 echo
 echo
