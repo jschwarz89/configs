@@ -46,12 +46,12 @@ ln -v -s $CONFIGS_DIRNAME/vimrc ~/.config/nvim/init.vim
 sudo pip install neovim
 sudo pip3 install neovim
 
-curl https://raw.githubusercontent.com/Shougo/neobundle.vim/master/bin/install.sh > /tmp/neobundle.sh
-bash /tmp/neobundle.sh
-echo "set runtimepath^=$HOME/.config/nvim/bundle/neobundle.vim/" > ~/.config/nvim/paths.vim
-echo "call neobundle#begin(expand('$HOME/.config/nvim/bundle'))" >> ~/.config/nvim/paths.vim
+curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > /tmp/installer.sh
+bash /tmp/installer.sh ~/.config/nvim/bundle
+echo "set runtimepath^=$HOME/.config/nvim/bundle/repos/github.com/Shougo/dein.vim" > ~/.config/nvim/paths.vim
+echo "call dein#begin(expand('$HOME/.config/nvim/bundle'))" >> ~/.config/nvim/paths.vim
 
-nvim +NeoBundleInstall +UpdateRemotePlugins +qall
+nvim +dein#install() +UpdateRemotePlugins +qall
 
 mkdir ~/.config/nvim/tmp
 mkdir ~/.config/nvim/tmp/undo

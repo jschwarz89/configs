@@ -16,34 +16,35 @@ endif
 let g:python3_host_prog = '/usr/local/bin/python3'
 source ~/.config/nvim/paths.vim
 
-" Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
+" Let dein manage dein
+call dein#add('Shougo/dein.vim')
 
 " Bundles!! :)
-NeoBundle 'L9'
-NeoBundle 'FuzzyFinder'
+call dein#add('L9')
+call dein#add('FuzzyFinder')
 
 " General - change surrounding..., three way merger, tab completion, marks toggle
-NeoBundle 'scrooloose/nerdcommenter.git'
-NeoBundle 'Splice'
-NeoBundle 'Shougo/deoplete.nvim'
+call dein#add('scrooloose/nerdcommenter.git')
+call dein#add('Splice')
+
+" Auto completion
+call dein#add('Shougo/deoplete.nvim')
+call dein#add('davidhalter/jedi')
+call dein#add('zchee/deoplete-jedi')
+call dein#add('zchee/deoplete-clang')
 
 " Python
-NeoBundle 'andviro/flake8-vim', {
-\  'lazy' : 1,
-\  'autoload' : {
-\    'filetypes' : ['python']
-\  }
-\}
+call dein#add('andviro/flake8-vim')
 
 " Airline
-NeoBundle 'bling/vim-airline'
+call dein#add('bling/vim-airline')
 
 " Dev Bundles
-NeoBundle 'prabirshrestha/async'
-NeoBundle 'jschwarz89/shared-session-vim'
+call dein#add('prabirshrestha/async.vim')
+call dein#add('jschwarz89/shared-session-vim')
 
-call neobundle#end()
+" Required:
+call dein#end()
 
 " }}}
 
@@ -63,6 +64,9 @@ else
   return "\<C-N>"
 endif
 endf
+
+let g:deoplete#sources#clang#libclang_path = "/usr/local/Cellar/llvm/3.6.2/lib/libclang.dylib"
+let g:deoplete#sources#clang#clang_header = "/usr/local/Cellar/llvm/3.6.2/include/clang"
 
 
 " PyFlakes
@@ -103,6 +107,8 @@ filetype plugin indent on
 syntax on
 colorscheme ron
 
+set completeopt-=preview
+set nofoldenable
 set modelines=0
 set nowrap
 set suffixes+=.pyc
@@ -156,6 +162,8 @@ au BufRead,BufNewFile *COMMIT_*MSG setlocal spell
 
 au BufRead,BufNewFile * if &ft == 'python' | set keywordprg=pydoc | endif
 au BufRead,BufNewFile *.jack setlocal filetype=java " nand2tetris
+
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 " Allow wrapping automatically when reaching more than 79 chars, except in
 " git commit
