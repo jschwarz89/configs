@@ -197,21 +197,11 @@ highlight SignColumn ctermfg=white
 
 " Key Mappings ------------------------------------------------------------ {{{
 
-" sudo write file with no warnings
-cmap w!! W|
-command! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
-augroup MyNoReadOnly
-  autocmd!
-  autocmd BufRead * setlocal noreadonly
-augroup END
-
 " common typos
-cmap Qa qa
-cmap Qa! qa!
+command! Qa qa
 command! Q :q
 command! W :w
-cmap Y y$
-cmap v$ v$h
+command! Y y$
 
 " visual on last pasted region
 nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
