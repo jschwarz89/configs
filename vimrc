@@ -164,6 +164,7 @@ au BufRead,BufNewFile * if &ft == 'python' | set keywordprg=pydoc | endif
 au BufRead,BufNewFile *.jack setlocal filetype=java " nand2tetris
 
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+au BufReadPost *COMMIT_*MSG exe "normal! gg"
 
 " Allow wrapping automatically when reaching more than 79 chars, except in
 " git commit
