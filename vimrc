@@ -41,7 +41,6 @@ call dein#add('andviro/flake8-vim')
 call dein#add('bling/vim-airline')
 
 " Dev Bundles
-call dein#add('prabirshrestha/async.vim')
 call dein#add('jschwarz89/shared-session-vim')
 
 " Required:
