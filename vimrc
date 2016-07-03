@@ -30,6 +30,7 @@ call dein#add('FuzzyFinder')
 " General - change surrounding..., three way merger, tab completion, marks toggle
 call dein#add('scrooloose/nerdcommenter.git')
 call dein#add('Splice')
+call dein#add('justinmk/vim-sneak')
 
 " Auto completion
 call dein#add('Shougo/deoplete.nvim')
