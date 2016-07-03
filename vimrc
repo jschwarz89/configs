@@ -20,6 +20,9 @@ source ~/.config/nvim/paths.vim
 " Let dein manage dein
 call dein#add('Shougo/dein.vim')
 
+" Themes
+call dein#add('nanotech/jellybeans.vim')
+
 " Bundles!! :)
 call dein#add('L9')
 call dein#add('FuzzyFinder')
@@ -38,7 +41,8 @@ call dein#add('zchee/deoplete-clang')
 call dein#add('andviro/flake8-vim')
 
 " Airline
-call dein#add('bling/vim-airline')
+call dein#add('vim-airline/vim-airline')
+call dein#add('vim-airline/vim-airline-themes')
 
 " Dev Bundles
 call dein#add('jschwarz89/shared-session-vim')
@@ -105,7 +109,7 @@ nmap <Leader>r :FufRenewCache<CR>
 filetype plugin indent on
 
 syntax on
-colorscheme ron
+colorscheme jellybeans
 
 set completeopt-=preview
 set nofoldenable
@@ -113,7 +117,6 @@ set modelines=0
 set nowrap
 set suffixes+=.pyc
 set mouse=a
-set background=dark
 set number
 set relativenumber
 set showcmd
