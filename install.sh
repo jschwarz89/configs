@@ -13,6 +13,7 @@ echo "and zsh on your own!"
 sudo dnf -y install dnf-plugins-core
 sudo dnf -y copr enable dperson/neovim
 sudo dnf -y install neovim zsh python3-pip python3-devel clang clang-devel
+sudo pip install pip3
 
 echo
 echo

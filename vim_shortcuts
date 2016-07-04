@@ -12,6 +12,14 @@
 } - goto next paragraph
 % - goto other bracket
 
+[m - goto last function
+]m - goto next function
+
+ctrl+y - scroll one line up
+ctrl+e - scroll one line down
+ctrl+u - scroll <scroll> lines up
+ctrl+d - scroll <scroll> lines down
+
 H - move to top of screen
 M - move to middle of screen
 L - move to bottom of screen
