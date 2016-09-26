@@ -57,8 +57,8 @@ if [ `uname` = "Darwin" ]; then
     echo "let g:deoplete#sources#clang#clang_header = '/usr/local/Cellar/llvm/3.6.2/include/clang'" >> ~/.config/nvim/paths.vim
 else
     echo "let g:python3_host_prog = '/usr/bin/python3'" >> ~/.config/nvim/paths.vim
-    echo "let g:deoplete#sources#clang#libclang_path = '/usr/lib64/llvm/libclang.so'" >> ~/.config/nvim/paths.vim
-    echo "let g:deoplete#sources#clang#clang_header = '/usr/lib/clang/3.5.0'" >> ~/.config/nvim/paths.vim
+    echo "let g:deoplete#sources#clang#libclang_path = '/usr/lib64/libclang.so'" >> ~/.config/nvim/paths.vim
+    echo "let g:deoplete#sources#clang#clang_header = '/usr/lib64/clang/3.8.0'" >> ~/.config/nvim/paths.vim
 fi
 nvim +qall
 nvim +UpdateRemotePlugins +qall

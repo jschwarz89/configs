@@ -24,8 +24,9 @@ call dein#add('Shougo/dein.vim')
 call dein#add('nanotech/jellybeans.vim')
 
 " Bundles!! :)
-call dein#add('L9')
-call dein#add('FuzzyFinder')
+"call dein#add('L9')
+"call dein#add('FuzzyFinder')
+call dein#add('ctrlpvim/ctrlp.vim')
 
 " General - change surrounding..., three way merger, tab completion, marks toggle
 call dein#add('scrooloose/nerdcommenter.git')
@@ -37,9 +38,6 @@ call dein#add('Shougo/deoplete.nvim')
 call dein#add('davidhalter/jedi')
 call dein#add('zchee/deoplete-jedi')
 call dein#add('zchee/deoplete-clang')
-
-" Python
-call dein#add('andviro/flake8-vim')
 
 " Airline
 call dein#add('vim-airline/vim-airline')
@@ -74,13 +72,6 @@ else
 endif
 endf
 
-" PyFlakes
-let g:PyFlakeOnWrite = 1
-let g:PyFlakeCheckers = 'pep8'
-let g:PyFlakeDisabledMessages = 'E125,E126,E128,E129,E265,E309,H404,H405,E731'
-let g:PyFlakeCWindow = 0
-let g:PyFlakeMaxLineLength = 80
-
 " Airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
@@ -97,10 +88,11 @@ nmap <leader>7 <Plug>AirlineSelectTab7
 nmap <leader>8 <Plug>AirlineSelectTab8
 nmap <leader>9 <Plug>AirlineSelectTab9
 
-" FuzzyFinder
-let g:fuf_file_exclude = '\v\~$|\.o$|\.bak$|\.swp$|\.class$|\.git/$|__pycache__/$|\.pyc$'
-nmap <F3> :FufFileWithCurrentBufferDir<CR>
-nmap <Leader>r :FufRenewCache<CR>
+
+" CtrlP
+let g:ctrlp_map = '<F3>'
+let g:ctrlp_custom_ignore = '\v\~$|\.o$|\.bak$|\.swp$|\.class$|\.git/$|__pycache__/$|\.pyc$'
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
 " }}}
 
