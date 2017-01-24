@@ -35,6 +35,7 @@ call dein#add('justinmk/vim-sneak')
 
 " Auto completion
 call dein#add('Shougo/deoplete.nvim')
+call dein#add('Shougo/neoinclude.vim')
 call dein#add('davidhalter/jedi')
 call dein#add('zchee/deoplete-jedi')
 call dein#add('zchee/deoplete-clang')
@@ -43,8 +44,11 @@ call dein#add('zchee/deoplete-clang')
 call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes')
 
+" C++
+call dein#add('neomake/neomake')
+
 " Dev Bundles
-call dein#add('jschwarz89/shared-session-vim')
+" call dein#add('jschwarz89/shared-session-vim')
 
 " Required:
 call dein#end()
@@ -104,7 +108,8 @@ filetype plugin indent on
 syntax on
 colorscheme jellybeans
 
-set completeopt-=preview
+set wildmenu
+" set completeopt-=preview
 set nofoldenable
 set modelines=0
 set nowrap
@@ -139,6 +144,7 @@ set backupdir=~/.config/nvim/tmp/backup/
 set directory=~/.config/nvim/tmp/swap/
 set backup
 set noswapfile
+set scrolloff=3         "Start scrolling when we're 8 lines away from margins
 
 set hlsearch
 if !has('nvim')
@@ -147,7 +153,7 @@ if !has('nvim')
 endif
 
 " Linux Kernel development variables - set to 1 to enable
-let g:load_linuxsty = 0
+"let g:load_linuxsty = 1
 
 " Resize => rearrange windows
 au VimResized * exe "normal! \<c-w>="
@@ -264,6 +270,10 @@ map <down> <nop>
 map <left> <nop>
 map <right> <nop>
 
+imap <up> <nop>
+imap <down> <nop>
+imap <left> <nop>
+imap <right> <nop>
 " }}}
 
 
