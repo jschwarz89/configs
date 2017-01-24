@@ -239,8 +239,12 @@ nnoremap <expr> <up> (v:count > 1 ? "m'" . v:count : "") . 'k'
 nnoremap <expr> <down> (v:count > 1 ? "m'" . v:count : "") . 'j'
 
 " vimgrep
-nnoremap <silent> <leader>gl :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR><C-w><C-p><C-o><C-w><C-p>
-nnoremap <silent> <leader>gw :execute 'vimgrep /' . expand('<cword>') . '/g %'<CR>:copen<CR><C-w><C-p><C-o><C-w><C-p>
+nnoremap <silent> <leader>flp :execute 'vimgrep /'.@/.'/g **/*.py'<CR>:copen<CR><C-w><C-p><C-o><C-w><C-p>
+nnoremap <silent> <leader>flc :execute 'vimgrep /'.@/.'/g **/*.[ch]'<CR>:copen<CR><C-w><C-p><C-o><C-w><C-p>
+nnoremap <silent> <leader>fla :execute 'vimgrep /'.@/.'/g **/*'<CR>:copen<CR><C-w><C-p><C-o><C-w><C-p>
+nnoremap <silent> <leader>fp :execute 'vimgrep /\<' . expand('<cword>') . '\>/g **/*.py'<CR>:copen<CR><C-w><C-p><C-o><C-w><C-p>
+nnoremap <silent> <leader>fc :execute 'vimgrep /\<' . expand('<cword>') . '\>/g **/*.[ch]'<CR>:copen<CR><C-w><C-p><C-o><C-w><C-p>
+nnoremap <silent> <leader>fa :execute 'vimgrep /\<' . expand('<cword>') . '\>/g **/*'<CR>:copen<CR><C-w><C-p><C-o><C-w><C-p>
 
 " pdb / traceback bindings
 command Pdbp :normal oimport ipdb;ipdb.set_trace()<ESC>
