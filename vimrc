@@ -24,14 +24,12 @@ call dein#add('Shougo/dein.vim')
 call dein#add('nanotech/jellybeans.vim')
 
 " Bundles!! :)
-"call dein#add('L9')
-"call dein#add('FuzzyFinder')
 call dein#add('ctrlpvim/ctrlp.vim')
 
 " General - change surrounding..., three way merger, tab completion, marks toggle
 call dein#add('scrooloose/nerdcommenter.git')
-call dein#add('Splice')
 call dein#add('justinmk/vim-sneak')
+call dein#add('matze/vim-move')
 
 " Auto completion
 call dein#add('Shougo/deoplete.nvim')
@@ -44,8 +42,8 @@ call dein#add('zchee/deoplete-clang')
 call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes')
 
-" C++
-call dein#add('neomake/neomake')
+" Ag
+call dein#add('rking/ag.vim')
 
 " Dev Bundles
 " call dein#add('jschwarz89/shared-session-vim')
@@ -92,11 +90,15 @@ nmap <leader>7 <Plug>AirlineSelectTab7
 nmap <leader>8 <Plug>AirlineSelectTab8
 nmap <leader>9 <Plug>AirlineSelectTab9
 
-
 " CtrlP
 let g:ctrlp_map = '<F3>'
-let g:ctrlp_custom_ignore = '\v\~$|\.o$|\.bak$|\.swp$|\.class$|\.git/$|__pycache__/$|\.pyc$'
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+
+" Ag
+let g:ag_prg="ag --vimgrep"
+
+" vim-move
+let g:move_key_modifier = 'C'
 
 " }}}
 
@@ -109,54 +111,65 @@ syntax on
 colorscheme jellybeans
 
 set wildmenu
-" set completeopt-=preview
 set nofoldenable
 set modelines=0
-set nowrap
 set suffixes+=.pyc
+
 set mouse=a
-set number
-set relativenumber
-set showcmd
-set showmatch
-set autowrite
-set hidden
 set equalalways
-set ruler
-set ic
-set scs
-set is
-set sw=4
-set ts=4
-set autoindent
-set cindent
-set cino=L,:0,b1,t0,(s,U1,m1
-set cink+=*;
-set laststatus=2
-set smartindent
-set tabstop=4
+set visualbell
+set scrolloff=3         "Start scrolling when we're 8 lines away from margins
+
+set nowrap
+
+set showmatch
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
+
+set autowrite
+
 set shiftwidth=4
-set expandtab
-set vb
+set textwidth=4
+set tabstop=4
+set noexpandtab
+set copyindent
+set autoindent
+set smartindent
+set cindent
+set cino=L-1,:0,t0,i8,g0,N-4,(0,U1,m1,W4
+set cink+=*;
+
 set undofile
+set backup
+set noswapfile
 set undodir=~/.config/nvim/tmp/undo/
 set backupdir=~/.config/nvim/tmp/backup/
 set directory=~/.config/nvim/tmp/swap/
-set backup
-set noswapfile
-set scrolloff=3         "Start scrolling when we're 8 lines away from margins
-
-set hlsearch
-if !has('nvim')
-    set t_Co=256
-    set t_vb=".
-endif
 
 " Linux Kernel development variables - set to 1 to enable
 "let g:load_linuxsty = 1
 
 " Resize => rearrange windows
 au VimResized * exe "normal! \<c-w>="
+
+" Set norelativenumber on non-active windows only
+set number
+set relativenumber
+augroup rnumber
+    au!
+    au WinLeave * setlocal norelativenumber
+    au WinEnter * setlocal relativenumber
+augroup END
+
+" Set cursorline on current window and normal mode only
+set cursorline
+augroup cline
+    au!
+    au WinLeave,InsertEnter * set nocursorline
+    au WinEnter,InsertLeave * set cursorline
+augroup END
 
 " Spelling for commits/rst files
 au BufRead,BufNewFile *.rst setlocal spell
@@ -208,6 +221,9 @@ command! Y y$
 " visual on last pasted region
 nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
 
+" visual on last inserted region
+nnoremap gv `[v`]
+
 " tabs
 map <Leader>tt :tabnew<CR>
 map <Leader>tc :tabclose<CR>
@@ -222,6 +238,9 @@ nnoremap <F2> :!ctags --recurse=yes --line-directives=yes --exclude=.tox --exclu
 nmap <leader>yy :%y+<CR>
 nmap <leader>dd :%d+<CR>
 
+" Clean traling whitespace
+nnoremap <leader>w :%s/\s\+$//<cr>:let @/=''<cr>
+
 " clear searches and re-set them
 noremap <leader><space> :noh<CR>:call clearmatches()<CR>
 noremap <leader>hs :set hlsearch<CR>
@@ -232,19 +251,14 @@ nnoremap * :normal! *zzzv<CR>
 nnoremap n :normal! nzzzv<CR>
 nnoremap N :normal! Nzzzv<CR>
 
+" Use <C-\> to jump to tag in new split
+nnoremap <c-\> <c-w>v<c-w><c-w><c-]>zz<cr>
+
 " traversing up and down should modify context mark
 nnoremap <expr> k (v:count > 1 ? "m'" . v:count : "") . 'k'
 nnoremap <expr> j (v:count > 1 ? "m'" . v:count : "") . 'j'
 nnoremap <expr> <up> (v:count > 1 ? "m'" . v:count : "") . 'k'
 nnoremap <expr> <down> (v:count > 1 ? "m'" . v:count : "") . 'j'
-
-" vimgrep
-nnoremap <silent> <leader>flp :execute 'vimgrep /'.@/.'/g **/*.py'<CR>:copen<CR><C-w><C-p><C-o><C-w><C-p>
-nnoremap <silent> <leader>flc :execute 'vimgrep /'.@/.'/g **/*.[ch]'<CR>:copen<CR><C-w><C-p><C-o><C-w><C-p>
-nnoremap <silent> <leader>fla :execute 'vimgrep /'.@/.'/g **/*'<CR>:copen<CR><C-w><C-p><C-o><C-w><C-p>
-nnoremap <silent> <leader>fp :execute 'vimgrep /\<' . expand('<cword>') . '\>/g **/*.py'<CR>:copen<CR><C-w><C-p><C-o><C-w><C-p>
-nnoremap <silent> <leader>fc :execute 'vimgrep /\<' . expand('<cword>') . '\>/g **/*.[ch]'<CR>:copen<CR><C-w><C-p><C-o><C-w><C-p>
-nnoremap <silent> <leader>fa :execute 'vimgrep /\<' . expand('<cword>') . '\>/g **/*'<CR>:copen<CR><C-w><C-p><C-o><C-w><C-p>
 
 " pdb / traceback bindings
 command Pdbp :normal oimport ipdb;ipdb.set_trace()<ESC>
@@ -260,13 +274,20 @@ nnoremap <silent> <leader>O :TracebackO<CR>
 " use C-r C-r to paste from "+
 inoremap <C-r><C-r> <C-r>*
 
-" use C-u to change previous word to upper-case
-inoremap <C-u> <esc>viwUea
+" use jk to exit insert mode
+inoremap jk <esc>
 
 " terminal support! :>
 let g:terminal_scrollback_buffer_size=100000
 tnoremap <Esc> <C-\><C-n>
 nnoremap <leader>te :terminal<CR>
+
+" Make X an operator that removes text without placing text in the default
+" registry
+nmap X "_d
+nmap XX "_dd
+vmap X "_d
+vmap x "_d
 
 " disable bad habits
 map <up> <nop>
@@ -278,6 +299,16 @@ imap <up> <nop>
 imap <down> <nop>
 imap <left> <nop>
 imap <right> <nop>
+
+" Allows you to visually select a section and then hit @ to run a macro on all
+" lines.
+function! ExecuteMacroOverVisualRange()
+  echo "@".getcmdline()
+  execute ":'<,'>normal @".nr2char(getchar())
+endfunction
+
+xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
+
 " }}}
 
 
@@ -337,5 +368,161 @@ hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#8cffba ctermbg=121
 hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#b88853 ctermbg=137
 hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
 hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
+
+" }}}
+
+
+" Indent Guides ----------------------------------------------------------- {{{
+let g:indentguides_state = 0
+function! IndentGuides() " {{{
+    if g:indentguides_state
+        let g:indentguides_state = 0
+        2match None
+    else
+        let g:indentguides_state = 1
+        execute '2match IndentGuides /\%(\_^\s*\)\@<=\%(\%'.(0*&sw+1).'v\|\%'.(1*&sw+1).'v\|\%'.(2*&sw+1).'v\|\%'.(3*&sw+1).'v\|\%'.(4*&sw+1).'v\|\%'.(5*&sw+1).'v\|\%'.(6*&sw+1).'v\|\%'.(7*&sw+1).'v\)\s/'
+    endif
+endfunction " }}}
+hi def IndentGuides guibg=#303030 ctermbg=234
+nnoremap <leader>i :call IndentGuides()<cr>
+
+" }}}
+
+
+" Change in next block ---------------------------------------------------- {{{
+onoremap an :<c-u>call <SID>NextTextObject('a', '/')<cr>
+xnoremap an :<c-u>call <SID>NextTextObject('a', '/')<cr>
+onoremap in :<c-u>call <SID>NextTextObject('i', '/')<cr>
+xnoremap in :<c-u>call <SID>NextTextObject('i', '/')<cr>
+
+onoremap al :<c-u>call <SID>NextTextObject('a', '?')<cr>
+xnoremap al :<c-u>call <SID>NextTextObject('a', '?')<cr>
+onoremap il :<c-u>call <SID>NextTextObject('i', '?')<cr>
+xnoremap il :<c-u>call <SID>NextTextObject('i', '?')<cr>
+
+function! s:NextTextObject(motion, dir)
+    let c = nr2char(getchar())
+    let d = ''
+
+    if c ==# "b" || c ==# "(" || c ==# ")"
+        let c = "("
+    elseif c ==# "B" || c ==# "{" || c ==# "}"
+        let c = "{"
+    elseif c ==# "r" || c ==# "[" || c ==# "]"
+        let c = "["
+    elseif c ==# "'"
+        let c = "'"
+    elseif c ==# '"'
+        let c = '"'
+    else
+        return
+    endif
+
+    " Find the next opening-whatever.
+    execute "normal! " . a:dir . c . "\<cr>"
+
+    if a:motion ==# 'a'
+        " If we're doing an 'around' method, we just need to select around it
+        " and we can bail out to Vim.
+        execute "normal! va" . c
+    else
+        " Otherwise we're looking at an 'inside' motion.  Unfortunately these
+        " get tricky when you're dealing with an empty set of delimiters because
+        " Vim does the wrong thing when you say vi(.
+
+        let open = ''
+        let close = ''
+
+        if c ==# "("
+            let open = "("
+            let close = ")"
+        elseif c ==# "{"
+            let open = "{"
+            let close = "}"
+        elseif c ==# "["
+            let open = "\\["
+            let close = "\\]"
+        elseif c ==# "'"
+            let open = "'"
+            let close = "'"
+        elseif c ==# '"'
+            let open = '"'
+            let close = '"'
+        endif
+
+        " We'll start at the current delimiter.
+        let start_pos = getpos('.')
+        let start_l = start_pos[1]
+        let start_c = start_pos[2]
+
+        " Then we'll find it's matching end delimiter.
+        if c ==# "'" || c ==# '"'
+            " searchpairpos() doesn't work for quotes, because fuck me.
+            let end_pos = searchpos(open)
+        else
+            let end_pos = searchpairpos(open, '', close)
+        endif
+
+        let end_l = end_pos[0]
+        let end_c = end_pos[1]
+
+        call setpos('.', start_pos)
+
+        if start_l == end_l && start_c == (end_c - 1)
+            " We're in an empty set of delimiters.  We'll append an "x"
+            " character and select that so most Vim commands will do something
+            " sane.  v is gonna be weird, and so is y.  Oh well.
+            execute "normal! ax\<esc>\<left>"
+            execute "normal! vi" . c
+        elseif start_l == end_l && start_c == (end_c - 2)
+            " We're on a set of delimiters that contain a single, non-newline
+            " character.  We can just select that and we're done.
+            execute "normal! vi" . c
+        else
+            " Otherwise these delimiters contain something.  But we're still not
+            " sure Vim's gonna work, because if they contain nothing but
+            " newlines Vim still does the wrong thing.  So we'll manually select
+            " the guts ourselves.
+            let whichwrap = &whichwrap
+            set whichwrap+=h,l
+
+            execute "normal! va" . c . "hol"
+
+            let &whichwrap = whichwrap
+        endif
+    endif
+endfunction
+
+" }}}
+
+
+" Ack motions --------------------------------------------------------------{{{
+
+" Motions to Ack for things.  Works with pretty much everything, including:
+"   w, W, e, E, b, B, t*, f*, i*, a*, and custom text objects.
+" Awesome.
+"
+" Note: If the text covered by a motion contains a newline it won't work.  Ack
+" searches line-by-line.
+nnoremap <silent> <leader>a :set opfunc=<SID>AgMotion<CR>g@
+xnoremap <silent> <leader>a :<C-U>call <SID>AgMotion(visualmode())<CR>
+
+function! s:CopyMotionForType(type)
+    if a:type ==# 'v'
+        silent execute "normal! `<" . a:type . "`>y"
+    elseif a:type ==# 'char'
+        silent execute "normal! `[v`]y"
+    endif
+endfunction
+
+function! s:AgMotion(type) abort
+    let reg_save = @@
+
+    call s:CopyMotionForType(a:type)
+
+    execute "normal! :Ag! --literal " . shellescape(@@) . "\<cr>"
+
+    let @@ = reg_save
+endfunction
 
 " }}}

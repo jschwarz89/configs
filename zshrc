@@ -108,10 +108,13 @@ fi
 
 alias grep='grep --color=auto'
 
-alias fa='find . -name ".tox" -prune -o -name "tests" -prune -o -name ".git" -prune -o -name "*" -type f -print0 | xargs -0 grep -n --color=auto'
-alias fp='find . -name ".tox" -prune -o -name "tests" -prune -o -name ".git" -prune -o -name "*.py" -type f -print0 | xargs -0 grep -n --color=auto'
-alias fpa='find . -name ".tox" -prune -o -name ".git" -prune -o -name "*.py" -type f -print0 | xargs -0 grep -n --color=auto'
-alias fc='find . -name ".tox" -prune -o -name "tests" -prune -o -name ".git" -prune -o -name "*.[ch]" -type f -print0 | xargs -0 grep -n --color=auto'
+# Add --nogroup to simulate find | grep
+alias fa='ag -U'
+alias fp='ag --python --ignore-dir tests'
+alias fpa='ag --python'
+alias fc='ag --c'
+alias fcc='ag --cpp'
+alias fj='ag --java'
 alias fh='find /usr/include -name "*.h" -type f -print0 | xargs -0 grep -n --color=auto'
 
 alias gitlog='git --no-pager log --pretty=oneline -n'
