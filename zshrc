@@ -122,10 +122,14 @@ alias gitlog='git --no-pager log --pretty=oneline -n'
 alias duh='du -h -d 1'
 
 alias rm='rm -f'
-alias mv='mv -f'
 alias cp='cp -f'
+alias mv='mv -f'
+alias gnome-terminal='dbus-launch gnome-terminal'
 
 alias zeus02='console -M conserver-01.eng.tlv.redhat.com zeus02.eng.lab.tlv.redhat.com -l jschwarz'
 
 source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 unset LC_CTYPE
+
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${HOME}/lib/"
+export SVN_EDITOR="nvim"

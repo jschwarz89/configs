@@ -45,6 +45,9 @@ call dein#add('vim-airline/vim-airline-themes')
 " Ag
 call dein#add('rking/ag.vim')
 
+" C++
+call dein#add('tpope/vim-dispatch')
+
 " Dev Bundles
 " call dein#add('jschwarz89/shared-session-vim')
 
@@ -93,6 +96,7 @@ nmap <leader>9 <Plug>AirlineSelectTab9
 " CtrlP
 let g:ctrlp_map = '<F3>'
 let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+let g:ctrlp_working_path_mode = 0
 
 " Ag
 let g:ag_prg="ag --vimgrep"
@@ -117,7 +121,7 @@ set suffixes+=.pyc
 
 set mouse=a
 set equalalways
-set visualbell
+set novisualbell
 set scrolloff=3         "Start scrolling when we're 8 lines away from margins
 
 set nowrap
@@ -131,15 +135,15 @@ set hlsearch
 set autowrite
 
 set shiftwidth=4
-set textwidth=4
 set tabstop=4
-set noexpandtab
 set copyindent
 set autoindent
 set smartindent
 set cindent
 set cino=L-1,:0,t0,i8,g0,N-4,(0,U1,m1,W4
 set cink+=*;
+set expandtab
+au BufRead,BufNewFile *.c,*.cpp,*.h,*.hpp set noexpandtab
 
 set undofile
 set backup
@@ -184,14 +188,14 @@ au BufReadPost *COMMIT_*MSG exe "normal! gg"
 " Allow wrapping automatically when reaching more than 79 chars, except in
 " git commit
 au BufRead,BufNewFile *COMMIT_*MSG let b:is_commit=1
-fun! SetTextwidth()
+fun! SetTextWidth()
     if exists('b:is_commit')
         setlocal textwidth=72
     else
         setlocal textwidth=79
     endif
 endfun
-au BufRead,BufNewFile * call SetTextwidth()
+au BufRead,BufNewFile * call SetTextWidth()
 
 " }}}
 
@@ -200,6 +204,8 @@ au BufRead,BufNewFile * call SetTextwidth()
 
 " Colors for 80-chars-per-line column
 let &colorcolumn="80"
+au BufRead,BufNewFile *.c,*.cpp,*.h,*.hpp let &colorcolumn="120"
+au BufRead,BufNewFile *.c,*.cpp,*.h,*.hpp let &textwidth=119
 highlight ColorColumn ctermbg=235 guibg=#2c2d27
 highlight CursorLineNr ctermfg=255
 highlight LineNr ctermfg=grey
@@ -223,6 +229,9 @@ nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 " visual on last inserted region
 nnoremap gv `[v`]
+
+" <C-w>x should also switch to other window
+nnoremap <C-w>x <C-w>x<C-w><C-w><CR>
 
 " tabs
 map <Leader>tt :tabnew<CR>
@@ -288,6 +297,14 @@ nmap X "_d
 nmap XX "_dd
 vmap X "_d
 vmap x "_d
+
+" Quickfix windows and Make
+nnoremap <leader>m :Make all<CR>
+nnoremap <leader>c :Make clean<CR>
+nnoremap <leader>q :cclose<CR>
+nnoremap <leader>f :cfirst<CR>
+nnoremap <leader>p :cprevious<CR>
+nnoremap <leader>n :cnext<CR>
 
 " disable bad habits
 map <up> <nop>
