@@ -112,7 +112,7 @@ alias grep='grep --color=auto'
 alias fa='ag -U'
 alias fp='ag --python --ignore-dir tests'
 alias fpa='ag --python'
-alias fc='ag --c'
+alias fc='ag --cc'
 alias fcc='ag --cpp'
 alias fj='ag --java'
 alias fh='find /usr/include -name "*.h" -type f -print0 | xargs -0 grep -n --color=auto'
@@ -126,10 +126,12 @@ alias cp='cp -f'
 alias mv='mv -f'
 alias gnome-terminal='dbus-launch gnome-terminal'
 
-alias zeus02='console -M conserver-01.eng.tlv.redhat.com zeus02.eng.lab.tlv.redhat.com -l jschwarz'
+alias make='make -j 9'
 
 source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 unset LC_CTYPE
 
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${HOME}/lib/"
 export SVN_EDITOR="nvim"
+
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/opt/poky/2.0.3/sysroots/i586-poky-linux/usr/lib"

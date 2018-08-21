@@ -136,14 +136,13 @@ set autowrite
 
 set shiftwidth=4
 set tabstop=4
-set copyindent
+set nocopyindent
 set autoindent
 set smartindent
 set cindent
 set cino=L-1,:0,t0,i8,g0,N-4,(0,U1,m1,W4
 set cink+=*;
 set expandtab
-au BufRead,BufNewFile *.c,*.cpp,*.h,*.hpp set noexpandtab
 
 set undofile
 set backup
@@ -163,8 +162,8 @@ set number
 set relativenumber
 augroup rnumber
     au!
-    au WinLeave * setlocal norelativenumber
-    au WinEnter * setlocal relativenumber
+    au WinLeave,FocusLost * setlocal norelativenumber
+    au WinEnter,FocusGained * setlocal relativenumber
 augroup END
 
 " Set cursorline on current window and normal mode only
@@ -192,7 +191,7 @@ fun! SetTextWidth()
     if exists('b:is_commit')
         setlocal textwidth=72
     else
-        setlocal textwidth=79
+        "setlocal textwidth=79
     endif
 endfun
 au BufRead,BufNewFile * call SetTextWidth()
@@ -203,9 +202,9 @@ au BufRead,BufNewFile * call SetTextWidth()
 " Columns and colorings --------------------------------------------------- {{{
 
 " Colors for 80-chars-per-line column
-let &colorcolumn="80"
+let &colorcolumn="119"
 au BufRead,BufNewFile *.c,*.cpp,*.h,*.hpp let &colorcolumn="120"
-au BufRead,BufNewFile *.c,*.cpp,*.h,*.hpp let &textwidth=119
+"au BufRead,BufNewFile *.c,*.cpp,*.h,*.hpp let &textwidth=119
 highlight ColorColumn ctermbg=235 guibg=#2c2d27
 highlight CursorLineNr ctermfg=255
 highlight LineNr ctermfg=grey
@@ -228,7 +227,7 @@ command! Y y$
 nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 " visual on last inserted region
-nnoremap gv `[v`]
+"nnoremap gv `[v`]
 
 " <C-w>x should also switch to other window
 nnoremap <C-w>x <C-w>x<C-w><C-w><CR>
