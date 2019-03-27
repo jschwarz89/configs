@@ -31,6 +31,25 @@ ln -v -s $CONFIGS_DIRNAME/gitignore ~/.gitignore
 
 echo
 echo
+echo "Installing tmux..."
+git clone http://github.com/tmux/tmux $CONFIGS_DIRNAME/tmux.git
+pushd $CONFIGS_DIRNAME/tmux.git
+./autogen.sh
+./configure
+make
+sudo make install
+popd
+
+echo
+echo
+echo "Installing powerline..."
+git clone http://github.com/powerline/powerline.git $CONFIGS_DIRNAME/powerline.git
+pushd $CONFIGS_DIRNAME/powerline.git
+python setup.py build
+popd
+
+echo
+echo
 echo "Installing oh-my-zsh... Please exit the new shell that is created!!!"
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 rm ~/.zshrc

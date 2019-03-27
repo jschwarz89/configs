@@ -48,6 +48,10 @@ call dein#add('rking/ag.vim')
 " C++
 call dein#add('tpope/vim-dispatch')
 
+" tmux
+call dein#add('christoomey/vim-tmux-navigator')
+call dein#add('benmills/vimux')
+
 " Dev Bundles
 " call dein#add('jschwarz89/shared-session-vim')
 
@@ -78,6 +82,7 @@ endif
 endf
 
 " Airline
+let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#left_sep = ' > '
@@ -202,8 +207,8 @@ au BufRead,BufNewFile * call SetTextWidth()
 " Columns and colorings --------------------------------------------------- {{{
 
 " Colors for 80-chars-per-line column
-let &colorcolumn="119"
-au BufRead,BufNewFile *.c,*.cpp,*.h,*.hpp let &colorcolumn="120"
+let &colorcolumn="80"
+au BufRead,BufNewFile *.c,*.cpp,*.h,*.hpp let &colorcolumn="80"
 "au BufRead,BufNewFile *.c,*.cpp,*.h,*.hpp let &textwidth=119
 highlight ColorColumn ctermbg=235 guibg=#2c2d27
 highlight CursorLineNr ctermfg=255
@@ -540,5 +545,10 @@ function! s:AgMotion(type) abort
 
     let @@ = reg_save
 endfunction
+
+map <Leader>vp :VimuxPromptCommand<CR>
+map <Leader>vl :VimuxRunLastCommand<CR>
+map <Leader>vi :VimuxInspectRunner<CR>
+map <Leader>vz :VimuxZoomRunner<CR>
 
 " }}}
