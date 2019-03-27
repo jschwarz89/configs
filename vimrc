@@ -22,6 +22,7 @@ call dein#add('Shougo/dein.vim')
 
 " Themes
 call dein#add('nanotech/jellybeans.vim')
+call dein#add('morhetz/gruvbox')
 
 " Bundles!! :)
 call dein#add('ctrlpvim/ctrlp.vim')
@@ -206,9 +207,9 @@ au BufRead,BufNewFile * call SetTextWidth()
 
 " Columns and colorings --------------------------------------------------- {{{
 
-" Colors for 80-chars-per-line column
-let &colorcolumn="80"
-au BufRead,BufNewFile *.c,*.cpp,*.h,*.hpp let &colorcolumn="80"
+" Colors for 120-chars-per-line column
+let &colorcolumn="119"
+au BufRead,BufNewFile *.c,*.cpp,*.h,*.hpp let &colorcolumn="120"
 "au BufRead,BufNewFile *.c,*.cpp,*.h,*.hpp let &textwidth=119
 highlight ColorColumn ctermbg=235 guibg=#2c2d27
 highlight CursorLineNr ctermfg=255
@@ -272,17 +273,6 @@ nnoremap <expr> k (v:count > 1 ? "m'" . v:count : "") . 'k'
 nnoremap <expr> j (v:count > 1 ? "m'" . v:count : "") . 'j'
 nnoremap <expr> <up> (v:count > 1 ? "m'" . v:count : "") . 'k'
 nnoremap <expr> <down> (v:count > 1 ? "m'" . v:count : "") . 'j'
-
-" pdb / traceback bindings
-command Pdbp :normal oimport ipdb;ipdb.set_trace()<ESC>
-command PdbP :normal Oimport ipdb;ipdb.set_trace()<ESC>
-nnoremap <silent> <leader>p :Pdbp<CR>
-nnoremap <silent> <leader>P :PdbP<CR>
-
-command Tracebacko :normal oimport traceback;traceback.print_stack()<ESC>
-command TracebackO :normal Oimport traceback;traceback.print_stack()<ESC>
-nnoremap <silent> <leader>o :Tracebacko<CR>
-nnoremap <silent> <leader>O :TracebackO<CR>
 
 " use C-r C-r to paste from "+
 inoremap <C-r><C-r> <C-r>*
@@ -552,3 +542,17 @@ map <Leader>vi :VimuxInspectRunner<CR>
 map <Leader>vz :VimuxZoomRunner<CR>
 
 " }}}
+
+" pdb / traceback bindings
+command Pdbp :normal oimport ipdb;ipdb.set_trace()<ESC>
+command PdbP :normal Oimport ipdb;ipdb.set_trace()<ESC>
+nnoremap <silent> <leader>p :Pdbp<CR>
+nnoremap <silent> <leader>P :PdbP<CR>
+
+command Tracebacko :normal oimport traceback;traceback.print_stack()<ESC>
+command TracebackO :normal Oimport traceback;traceback.print_stack()<ESC>
+nnoremap <silent> <leader>o :Tracebacko<CR>
+nnoremap <silent> <leader>O :TracebackO<CR>
+
+nmap <F8> :TagbarToggle<CR>
+nmap <silent> <F9> :TagbarTogglePause<CR>

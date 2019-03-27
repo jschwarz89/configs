@@ -127,9 +127,10 @@ alias cp='cp -f'
 alias mv='mv -f'
 alias gnome-terminal='dbus-launch gnome-terminal'
 
-alias make='make -j 9'
+alias make='make -j 5'
 
 source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 unset LC_CTYPE
 
 export SVN_EDITOR="nvim"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/opt/poky/2.0.3/sysroots/i586-poky-linux/usr/lib"
