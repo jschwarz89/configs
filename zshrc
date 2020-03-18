@@ -61,24 +61,36 @@ CASE_SENSITIVE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(adb common-aliases osx ssh-agent sudo)
+plugins=(adb common-aliases osx ssh-agent)
 
 source $ZSH/oh-my-zsh.sh
 
+function zle-keymap-select {
+  if [[ ${KEYMAP} == vicmd ]] ||
+     [[ $1 = 'block' ]]; then
+    echo -ne '\e[1 q'
+  elif [[ ${KEYMAP} == main ]] ||
+       [[ ${KEYMAP} == viins ]] ||
+       [[ ${KEYMAP} = '' ]] ||
+       [[ $1 = 'beam' ]]; then
+    echo -ne '\e[5 q'
+  fi
+}
+zle -N zle-keymap-select
+
+bindkey '^[b' backward-word
+bindkey '^[f' backward-word
+
 # User configuration
 
-export PATH="/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/local/sbin:/usr/sbin:/home/jschwarz/bin:/home/jschwarz/.local/bin:/home/jschwarz/bin:/home/jschwarz/bin"
+export PATH="/usr/lib/ccache:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/local/sbin:/usr/sbin:$PATH"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
- #if [[ -n $SSH_CONNECTION ]]; then
-   #export EDITOR='vim'
- #else
-   #export EDITOR='xvim'
- #fi
+export EDITOR='nvim'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -128,9 +140,33 @@ alias mv='mv -f'
 alias gnome-terminal='dbus-launch gnome-terminal'
 
 alias make='make -j 5'
+alias catkin='intercept-build --append catkin'
 
 source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 unset LC_CTYPE
 
 export SVN_EDITOR="nvim"
-export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/opt/poky/2.0.3/sysroots/i586-poky-linux/usr/lib"
+
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64
+export PATH=$PATH:/usr/local/cuda/bin:/opt/gradle/gradle-5.0/bin:/home/john/gcc-arm-none-eabi-7-2017-q4-major/bin
+source /opt/ros/melodic/setup.zsh
+source /home/john/catkin_ws/devel/setup.zsh
+export PX4_DIR=/home/john/dev/px4/Firmware
+#export PX4_DIR=/home/john/repos/px4-firmware-downstream
+source ${PX4_DIR}/Tools/setup_gazebo.bash ${PX4_DIR} ${PX4_DIR}/build/posix_sitl_default >/dev/null
+export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:${PX4_DIR}
+export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:${PX4_DIR}/Tools/sitl_gazebo
+export TRT_INCLUDE_PATH=/home/john/TensorRT-6.0.1.8/include
+export TRT_LIB_PATH=/home/john/TensorRT-6.0.1.8/lib
+#export TRT_INCLUDE_PATH=/home/john/TensorRT-4.0.1.6/include
+#export TRT_LIB_PATH=/home/john/TensorRT-4.0.1.6/lib
+export TG_NN_MODELS_PATH=/home/john/models
+export DEPTH_CAMERA_PATH=/home/john/depth_sdk
+export THIRD_PARTY_PATH=/home/john/third_party
+export TG_CROSS_COMPILE_PATH=~/toolchain/gcc-linaro-4.9.4-2017.01-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
+export GST_PLUGIN_PATH=/home/john/catkin_ws/devel/lib
+
+# user and password for TG nexus respository
+export NEXUS_USER=ag_team
+export NEXUS_PASS=BTRoorZokKqmWHbwHFirvF3B
+export LANG=en_US.UTF-8
