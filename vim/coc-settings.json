@@ -1,6 +1,7 @@
 {
     "languageserver": {
         "ccls": {
+            "enable": true,
             "command": "ccls",
             "filetypes": [
                 "c",
@@ -18,8 +19,19 @@
             "initializationOptions": {
                 "cache": {
                     "directory": "/tmp/ccls"
-                }
+                },
+                "index": {
+                    "initialBlacklist": ["."],
+                    "initialWhitelist": ["hcl", "synapse", "specs", "specs_external", "hl-thunk"]
+                },
+                "highlight": { "enabled": true, "lsRanges" : true }
             }
+        }
+    },
+    "coc": {
+        "preferences": {
+            "hoverTarget": "preview",
+            "currentFunctionSymbolAutoUpdate": true
         }
     }
 }

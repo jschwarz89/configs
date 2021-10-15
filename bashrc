@@ -25,3 +25,7 @@ alias vi='vim'
 alias duh='du -h -d 1'
 
 export PS1='\[\e[1;36m\]\D{%T} \[\e[0;32m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \$ \[\e[m\]'
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+export PATH=$PATH:~/.local/bin/
+export PATH=$PATH:~/.local/bin/

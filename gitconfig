@@ -1,5 +1,5 @@
 [user]
-	email = john.schwarz@tg-17.com
+	email = jschwarz@habana.ai
 	name = John Schwarz
 [push]
 	default = simple
@@ -10,18 +10,15 @@
 	unstage = reset HEAD --
 	last = log -1 HEAD
 	visual = !gitk
-    remotes = remote -v
+        remotes = remote -v
 [core]
-    editor = nvim
+	editor = nvim
 	excludesfile = ~/.gitignore
 	autocrlf = input
 	safecrlf = false
-[diff]
-	tool = vimdiff
 [difftool]
 	prompt = false
-[sendemail]
-	smtpencryption = tls
-	smtpserver = smtp.corp.redhat.com
-	smtpserverport = 25
-	smtpsslcertpath = 
+[pull]
+	rebase = true
+[color]
+	ui = auto

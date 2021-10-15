@@ -2,8 +2,8 @@
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
-setopt appendhistory nomatch notify
-unsetopt autocd beep extendedglob incappendhistory
+setopt appendhistory nomatch notify shwordsplit
+unsetopt autocd beep extendedglob incappendhistory equals
 bindkey -v
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
@@ -21,7 +21,21 @@ export ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="john"
+#ZSH_THEME="john"
+export ALIEN_SECTIONS_LEFT=(
+  exit
+  user
+  time
+  path
+  prompt
+)
+
+export ALIEN_SECTIONS_RIGHT=(
+  vcs_branch:async
+)
+export ALIEN_THEME="gruvbox"
+source ~/repos/alien/alien.zsh
+
 
 # Uncomment the following line to use case-sensitive completion.
 CASE_SENSITIVE="true"
@@ -61,7 +75,7 @@ CASE_SENSITIVE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(adb common-aliases osx ssh-agent)
+plugins=(adb common-aliases osx ssh-agent zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -79,11 +93,13 @@ function zle-keymap-select {
 zle -N zle-keymap-select
 
 bindkey '^[b' backward-word
-bindkey '^[f' backward-word
+bindkey '^[f' forward-word
+bindkey '^b' backward-word
+bindkey '^f' forward-word
 
 # User configuration
 
-export PATH="/usr/lib/ccache:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/local/sbin:/usr/sbin:$PATH"
+export PATH="/usr/lib/ccache:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/local/sbin:/usr/sbin:/home/jschwarz/.cargo/bin:/home/jschwarz/.local/bin:$PATH"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -108,11 +124,8 @@ export EDITOR='nvim'
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
 # Private stuff :)
-export PATH="$PATH:/home/john/powerline.git/scripts/"
+export PATH="$PATH:/home/jschwarz/configs/powerline.git/scripts/:/home/jschwarz/configs/ccls/Release"
 export GREP_COLOR="1;31"
-
-alias vi='nvim -O'
-alias vim="nvim -O"
 
 if [ `uname` = "Darwin" ]; then
     export TERM=xterm-256color
@@ -147,26 +160,100 @@ unset LC_CTYPE
 
 export SVN_EDITOR="nvim"
 
-export LD_LIBRARY_PATH=/usr/local/cuda/lib64
-export PATH=$PATH:/usr/local/cuda/bin:/opt/gradle/gradle-5.0/bin:/home/john/gcc-arm-none-eabi-7-2017-q4-major/bin
-source /opt/ros/melodic/setup.zsh
-source /home/john/catkin_ws/devel/setup.zsh
-export PX4_DIR=/home/john/dev/px4/Firmware
-#export PX4_DIR=/home/john/repos/px4-firmware-downstream
-source ${PX4_DIR}/Tools/setup_gazebo.bash ${PX4_DIR} ${PX4_DIR}/build/posix_sitl_default >/dev/null
-export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:${PX4_DIR}
-export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:${PX4_DIR}/Tools/sitl_gazebo
-export TRT_INCLUDE_PATH=/home/john/TensorRT-6.0.1.8/include
-export TRT_LIB_PATH=/home/john/TensorRT-6.0.1.8/lib
-#export TRT_INCLUDE_PATH=/home/john/TensorRT-4.0.1.6/include
-#export TRT_LIB_PATH=/home/john/TensorRT-4.0.1.6/lib
-export TG_NN_MODELS_PATH=/home/john/models
-export DEPTH_CAMERA_PATH=/home/john/depth_sdk
-export THIRD_PARTY_PATH=/home/john/third_party
-export TG_CROSS_COMPILE_PATH=~/toolchain/gcc-linaro-4.9.4-2017.01-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
-export GST_PLUGIN_PATH=/home/john/catkin_ws/devel/lib
-
-# user and password for TG nexus respository
-export NEXUS_USER=ag_team
-export NEXUS_PASS=BTRoorZokKqmWHbwHFirvF3B
 export LANG=en_US.UTF-8
+
+#if [ $(hostname) == 'jschwarz-VM' ]; then
+    #export SET_ABSOLUTE_HABANA_ENV="true"
+    #source $HOME/trees/npu-stack/automation/habana_scripts/habana_env $HOME/trees $HOME/trees/npu-stack /home/jschwarz_local/builds
+#else
+    source $HOME/trees/npu-stack/automation/habana_scripts/habana_env
+#fi
+
+alias hl-lspci='lspci -d 1da3:'
+#alias cmake="intercept-build --append cmake"
+#alias make="intercept-build --append make"
+alias tkdb='rm -rf /tmp/sw_kernels_build_test ; jfrog rt dl --fail-no-op --sort-by=created --sort-order=desc --limit=1 --props '\''buildType=Release;release_branch=master;OS=ubuntu18.04'\'' habanalabs-bin-local/sw_kernels_build_test/ /tmp/ ; pushd /tmp/sw_kernels_build_test/ ; tar xf sw_kernels_build_test-*.tar.gz ; cp libtpc_kernels.so $GC_KERNEL_PATH ; popd'
+alias git-review="git-review -r origin"
+alias jlog='_jlog(){ curl -X GET --user jschwarz\:1193a1bbf2483f4000d2c7600f25002fa3 "$1" > /tmp/jlog.txt; }; _jlog'
+export PYTHONPATH=$PYTHONPATH:$HABANA_PY_QA_ROOT
+export CFLAGS="$CFLAGS -fdiagnostics-color=auto"
+export CXXFLAGS="$CXXFLAGS -fdiagnostics-color=auto"
+
+fix_ccls()
+{
+    echo "[" > $1
+    for f in $(find /home/jschwarz/builds -type f -iname "compile_commands.json"); do
+        echo "Appending output from $f..."
+        cat $f | head -n -2 | tail -n +2 >> $1
+        echo "    }," >> $1
+    done
+    echo "]" >> $1
+}
+#FLOATERM="/home/jschwarz/configs/vim/plugged/vim-floaterm/bin/floaterm"
+#export PATH="/home/jschwarz/configs/vim/plugged/vim-floaterm/bin:$PATH"
+#if type "floaterm" > /dev/null; then
+    #alias vim=floaterm
+#else
+    alias vi='nvim -O'
+    alias vim="nvim -O"
+#fi
+
+do_rsync()
+{
+    __repo="$1"
+    shift
+    host_list=$(/home/jschwarz/trees/npu-stack/gc_tools/hcl/server_arguments.py $@)
+    host_count=$(echo $host_list | wc -w)
+    setopt sh_word_split
+    for host in $host_list; do
+        sshpass -p "Hab12345" rsync -av --exclude .git $__repo labuser@${1}:trees/npu-stack || return 1
+    done
+    echo "Done!"
+    unsetopt sh_word_split
+}
+
+s()
+{
+    host_list=$(/home/jschwarz/trees/npu-stack/gc_tools/hcl/server_arguments.py $@)
+    host_count=$(echo $host_list | wc -w)
+
+    if (( $host_count > 1 )); then
+        tmux split-window -h
+        tmux select-pane -t {top-left}
+    fi
+
+    while (( $host_count > 2 )); do
+        count=0
+        panes=$(tmux list-panes -F '#P')
+        for pane in $panes; do
+            tmux select-pane -t $(($pane + $count))
+            tmux split-window -v
+            ((count++))
+        done
+        host_count=$(($host_count / 2))
+    done
+
+    setopt sh_word_split
+    tmux select-pane -t {top-left}
+    for host in $host_list; do
+        tmux send-keys "sshpass -p Hab12345 ssh labuser@$host" Enter
+        tmux select-pane -t {next}
+    done
+    unsetopt sh_word_split
+
+}
+alias gl='git log --decorate --date=short --pretty=format:"%C(green)%cd - %C(red)%h%Creset - %C(auto)%d%C(reset) %s %C(bold blue)<%an>%Creset"'
+alias gls='git log "$(git rev-parse --abbrev-ref --symbolic-full-name @{u})" --decorate --date=short --pretty=format:"%C(green)%cd - %C(red)%h%Creset - %C(auto)%d%C(reset) %s %C(bold blue)<%an>%Creset"'
+
+
+export MPARAMS="sim_mode=1 bringup_flags_enable=1 bfe_cpu_queues_enable=0 bfe_config_pll=1 bfe_cpu_enable=0"
+export MPARAMS="${MPARAMS} nic_ports_mask=0xffffff"
+export MPARAMS="${MPARAMS} reset_on_lockup=1 timeout_locked=400 bfe_dram_enable=1 bfe_mmu_enable=1"
+export MPARAMS="${MPARAMS} bfe_mme_mask=0 bfe_tpc_mask=0x0 bfe_rotator_mask=0x0 bfe_decoder_mask=0x0"
+export MPARAMS="${MPARAMS} bfe_axi_drain=1 bfe_dram_scrambler_enable=0"
+export MPARAMS="${MPARAMS} bfe_sram_scrambler_enable=0 bfe_security_enable=0"
+export EXTRA_CMAKE_FLAGS="-DCMAKE_EXPORT_COMPILE_COMMANDS=true"
+alias cmake="cmake ${EXTRA_CMAKE_FLAGS}"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export BAT_CONFIG_PATH="/home/jschwarz/.batrc"

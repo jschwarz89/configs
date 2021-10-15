@@ -17,52 +17,196 @@ endif
 " Set some paths
 source ~/.config/nvim/paths.vim
 
-" Let dein manage dein
-call dein#add('Shougo/dein.vim')
+call plug#begin()
+    " Themes
+    Plug 'nanotech/jellybeans.vim'
+    Plug 'morhetz/gruvbox'
+    Plug 'octol/vim-cpp-enhanced-highlight'
+    "Plug 'jackguo380/vim-lsp-cxx-highlight'
 
-" Themes
-call dein#add('nanotech/jellybeans.vim')
-call dein#add('morhetz/gruvbox')
+    " Bundles!! :)
+    "call dein#add('ctrlpvim/ctrlp.vim')
+    Plug 'junegunn/fzf', { 'build': './install', 'merged': 0 }
+    Plug 'junegunn/fzf.vim'
+    set rtp+=~/.fzf
 
-" Bundles!! :)
-call dein#add('ctrlpvim/ctrlp.vim')
+    "Plug 'voldikss/vim-floaterm'
+    Plug 'akinsho/nvim-toggleterm.lua'
+    Plug 'qpkorr/vim-bufkill'
 
-" General - change surrounding..., three way merger, tab completion, marks toggle
-call dein#add('scrooloose/nerdcommenter.git')
-call dein#add('justinmk/vim-sneak')
-call dein#add('matze/vim-move')
+    " General - change surrounding..., three way merger, tab completion, marks toggle
+    Plug 'scrooloose/nerdcommenter'
+    Plug 'justinmk/vim-sneak'
+    Plug 'matze/vim-move'
 
-" Auto completion
-"call dein#add('Shougo/deoplete.nvim')
-"call dein#add('Shougo/neoinclude.vim')
-"call dein#add('davidhalter/jedi')
-"call dein#add('zchee/deoplete-jedi')
-"call dein#add('zchee/deoplete-clang')
-call dein#add('neoclide/coc.nvim', { 'rev' : 'release' })
+    " Auto completion
+    "call dein#add('Shougo/deoplete.nvim')
+    "call dein#add('Shougo/neoinclude.vim')
+    "call dein#add('davidhalter/jedi')
+    "call dein#add('zchee/deoplete-jedi')
+    "call dein#add('zchee/deoplete-clang')
+    "Plug 'neoclide/coc.nvim', { 'rev' : 'release' }
+    Plug 'neovim/nvim-lspconfig'
+    Plug 'hrsh7th/nvim-compe'
 
-" Airline
-call dein#add('vim-airline/vim-airline')
-call dein#add('vim-airline/vim-airline-themes')
+    " Airline
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
 
-" Ag
-call dein#add('rking/ag.vim')
+    " Ag
+    Plug 'rking/ag.vim'
 
-" C++
-call dein#add('tpope/vim-dispatch')
+    " C++
+    Plug 'tpope/vim-dispatch'
 
-" tmux
-call dein#add('christoomey/vim-tmux-navigator')
-call dein#add('benmills/vimux')
+    " tmux
+    Plug 'christoomey/vim-tmux-navigator'
+    Plug 'benmills/vimux'
+	Plug 'tpope/vim-obsession'
+call plug#end()
+
+
+lua << EOF
+local lspconfig = require'lspconfig'
+lspconfig.ccls.setup {
+  init_options = {
+    index = {
+      threads = 0;
+      initialBlacklist = {"."};
+      initialWhitelist = {"hcl", "synapse", "specs", "specs_external", "hl-thunk"};
+    };
+    clang = {
+      excludeArgs = {"-frounding-math"};
+    };
+    cache = {
+      directory = "/tmp/ccls"
+    };
+    highlight = {
+      lsRanges = true;
+    };
+  }
+}
+
+-- Use an on_attach function to only map the following keys 
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  --Enable completion triggered by <c-x><c-o>
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  --buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  --buf_set_keymap('n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  --buf_set_keymap('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  --buf_set_keymap('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  --buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  --buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  --buf_set_keymap("n", "<leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+
+end
+
+-- Use a loop to conveniently call 'setup' on multiple servers and
+-- map buffer local keybindings when the language server attaches
+local servers = { "ccls" }
+for _, lsp in ipairs(servers) do
+  lspconfig[lsp].setup { on_attach = on_attach }
+end
+
+-- Compe setup
+require'compe'.setup {
+  enabled = true;
+  autocomplete = true;
+  debug = false;
+  min_length = 1;
+  preselect = 'enable';
+  throttle_time = 80;
+  source_timeout = 200;
+  incomplete_delay = 400;
+  max_abbr_width = 100;
+  max_kind_width = 100;
+  max_menu_width = 100;
+  documentation = true;
+
+  source = {
+    path = true;
+    nvim_lsp = true;
+  };
+}
+
+local t = function(str)
+  return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
+local check_back_space = function()
+    local col = vim.fn.col('.') - 1
+    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+        return true
+    else
+        return false
+    end
+end
+
+-- Use (s-)tab to:
+--- move to prev/next item in completion menuone
+--- jump to prev/next snippet's placeholder
+_G.tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-n>"
+  elseif check_back_space() then
+    return t "<Tab>"
+  else
+    return vim.fn['compe#complete']()
+  end
+end
+_G.s_tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-p>"
+  else
+    return t "<S-Tab>"
+  end
+end
+
+vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+
+
+require("toggleterm").setup{
+  -- size can be a number or function which is passed the current terminal
+  size = 20,
+  open_mapping = [[<F4>]],
+  hide_numbers = true, -- hide the number column in toggleterm buffers
+  shade_filetypes = {},
+  shade_terminals = true,
+  shading_factor = '1', -- the degree by which to darken to terminal colour, default: 1 for dark backgrounds, 3 for light
+  start_in_insert = true,
+  insert_mappings = true, -- whether or not the open mapping applies in insert mode
+  persist_size = true,
+  direction = 'float',
+  close_on_exit = true, -- close the terminal window when the process exits
+  shell = vim.o.shell, -- change the default shell
+  -- This field is only relevant if direction is set to 'float'
+}
+EOF
 
 " Dev Bundles
 " call dein#add('jschwarz89/shared-session-vim')
-
-" Required:
-call dein#end()
-
-if dein#check_install()
-    call dein#install()
-endif
 
 " }}}
 
@@ -89,7 +233,10 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#left_sep = ' > '
 let g:airline#extensions#tabline#left_alt_sep = ' > '
-let g:airline#extensions#tabline#formatter = 'default'
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+"let g:airline#extensions#coc#enabled = 1
+"let g:airline_section_x = '%{CocAction("getCurrentFunctionSymbol")}'
+"%{b:coc_current_function}"
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>AirlineSelectTab2
 nmap <leader>3 <Plug>AirlineSelectTab3
@@ -101,9 +248,12 @@ nmap <leader>8 <Plug>AirlineSelectTab8
 nmap <leader>9 <Plug>AirlineSelectTab9
 
 " CtrlP
-let g:ctrlp_map = '<F3>'
-let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
-let g:ctrlp_working_path_mode = 0
+"let g:ctrlp_map = '<F3>'
+"let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden --cc --cpp --python --json --make --proto --shell -g ""'
+"let g:ctrlp_working_path_mode = 0
+"let g:fzf_preview_window = ''
+map <F3> :Files<cr>
+nnoremap <Leader>l :Buffers<CR>
 
 " Ag
 let g:ag_prg="ag --vimgrep"
@@ -119,7 +269,22 @@ let g:move_key_modifier = 'C'
 filetype plugin indent on
 
 syntax on
-colorscheme jellybeans
+
+"let g:lsp_cxx_hl_verbose_log = 1
+"let g:lsp_cxx_hl_log_file = '/tmp/vim-lsp.log'
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_highlight = 1
+let g:cpp_posix_standard = 1
+
+set termguicolors
+set background=dark
+let g:gruvbox_contrast_dark = "hard"
+let g:gruvbox_italic = 1
+colorscheme gruvbox
+
+set exrc
+set secure
 
 set path+=**,/usr/include,/opt/ros/melodic/include
 set wildmenu
@@ -142,15 +307,19 @@ set hlsearch
 
 set autowrite
 
-set shiftwidth=2
 set tabstop=4
+set softtabstop=0
+set shiftwidth=4
+set smarttab
+set expandtab
+
 set copyindent
 set autoindent
 set smartindent
+set indentexpr
 set cindent
 set cino=L-1,:0,t0,i8,g0,N-4,(0,U1,m1,W4
 set cink+=*;
-set expandtab
 set noeol
 set binary
 
@@ -178,16 +347,16 @@ set number
 set relativenumber
 augroup rnumber
     au!
-    au WinLeave,FocusLost * setlocal norelativenumber
-    au WinEnter,FocusGained * setlocal relativenumber
+    au WinLeave,FocusLost * setlocal norelativenumber expandtab
+    au WinEnter,FocusGained * setlocal relativenumber expandtab
 augroup END
 
 " Set cursorline on current window and normal mode only
 set cursorline
 augroup cline
     au!
-    au WinLeave,InsertEnter * set nocursorline
-    au WinEnter,InsertLeave * set cursorline
+    au WinLeave,InsertEnter * set nocursorline expandtab
+    au WinEnter,InsertLeave * set cursorline expandtab
 augroup END
 
 " Spelling for commits/rst files
@@ -255,9 +424,6 @@ map <Leader>tm :tabmove<CR>
 map <Leader>tn :tabnext<CR>
 map <Leader>tp :tabprevious<CR>
 
-" ctags for the riches
-nnoremap <F12> :!ctags --recurse=yes --line-directives=yes --exclude=.tox --exclude=.git<CR>
-
 " yank entire files
 nmap <leader>yy :%y+<CR>
 nmap <leader>dd :%d+<CR>
@@ -292,7 +458,7 @@ inoremap jk <esc>
 
 " terminal support! :>
 let g:terminal_scrollback_buffer_size=100000
-tnoremap <Esc> <C-\><C-n>
+"tnoremap <Esc> <C-\><C-n>
 nnoremap <leader>te :terminal<CR>
 
 " Make X an operator that removes text without placing text in the default
@@ -332,27 +498,6 @@ xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
 
 " }}}
 
-
-" Buffer Switching -------------------------------------------------------- {{{
-
-function! BufSel()
-	execute ":buffers"
-	let pattern = input("Enter Buffer Number: ")
-	echo "-"
-
-	let selection = str2nr(pattern)
-	if (selection != 0)
-		execute ":buffer ". selection
-		return
-	endif
-endfunction
-command! Bs :call BufSel()<CR>
-nnoremap <Leader>l :Bs<CR>
-nnoremap <Leader><C-b> :Bs<CR>
-
-" }}}
-
-
 " Highlight Searches with Colors ------------------------------------------ {{{
 function! HiInterestingWord(n, is_visual)
     let view = winsaveview()
@@ -383,12 +528,12 @@ for i in range(1,6)
     endfor
 endfor
 
-hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#ffa724 ctermbg=214
-hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#aeee00 ctermbg=154
-hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#8cffba ctermbg=121
-hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#b88853 ctermbg=137
-hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
-hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
+hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#aeee00 ctermbg=154
+hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#8cffba ctermbg=121
+hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#b88853 ctermbg=137
+hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
+hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
+hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ffa724 ctermbg=214
 
 " }}}
 
@@ -568,6 +713,7 @@ nmap <F8> :TagbarToggle<CR>
 nmap <silent> <F9> :TagbarTogglePause<CR>
 
 
+if 0
 let g:coc_global_extensions = [
  \ 'coc-yaml',
  \ 'coc-python',
@@ -618,7 +764,7 @@ function! s:show_documentation()
 endfunction
 
 " Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
+"autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
@@ -632,7 +778,7 @@ augroup mygroup
   " Setup formatexpr specified filetype(s).
   autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
   " Update signature help on jump placeholder
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+  "autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
 " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
@@ -683,9 +829,9 @@ nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+endif
 
 highlight clear SignColumn
-set expandtab
 au VimLeave * set guicursor=a:ver100-blinkon0
 
 " Zoom / Restore window.
@@ -705,3 +851,8 @@ nnoremap <silent> <Leader><Leader> :ZoomToggle<CR>
 
 autocmd BufWinEnter,WinEnter term://* startinsert
 autocmd BufLeave term://* stopinsert
+
+let g:floaterm_keymap_toggle = '<F4>'
+let g:floaterm_shell = 'zsh'
+
+set expandtab
