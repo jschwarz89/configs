@@ -6,3 +6,8 @@ compile_commands.json
 build/
 Session.vim
 .ccls-cache
+*.o
+hpt
+hpt_mpi
+core
+core.*

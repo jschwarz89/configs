@@ -4,13 +4,8 @@
 [push]
 	default = simple
 [alias]
-	st = status
-	ci = commit
-	branches = branch -v -a
-	unstage = reset HEAD --
-	last = log -1 HEAD
-	visual = !gitk
-        remotes = remote -v
+    branches = branch -v -a
+    remotes = remote -v
 [core]
 	editor = nvim
 	excludesfile = ~/.gitignore

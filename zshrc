@@ -75,7 +75,7 @@ CASE_SENSITIVE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(adb common-aliases osx ssh-agent zsh-autosuggestions)
+plugins=(adb common-aliases macos ssh-agent zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -257,3 +257,50 @@ alias cmake="cmake ${EXTRA_CMAKE_FLAGS}"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export BAT_CONFIG_PATH="/home/jschwarz/.batrc"
+
+function hclmd5() {
+    if [ -f /tmp/hcl.build_failed ]; then
+        echo "Last build failed, you should run the build"
+        return 1
+    fi
+    if [ ! -f /tmp/hcl.md5sum ]; then
+        echo "No md5sum file, you should run the build"
+        return 1
+    fi
+
+    old=$(cat /tmp/hcl.md5sum)
+    new=$(find src tests -iname "*.cpp" -or -iname "*.h" | xargs md5sum | md5sum)
+    python3 -c "if '$old'.split()[0] != '$new'.split()[0]: import sys;sys.exit(1)"
+
+    if [[ $? -eq 0 ]]; then
+        echo "No file changed, you should skip the build"
+        return 0
+    fi
+
+    echo "md5sum is different, you should run the build"
+    echo $new > /tmp/hcl.md5sum
+    return 1
+}
+
+function build() {
+    pushd $HCL_ROOT
+    hclmd5
+    retval=$?
+    popd
+    if [[ $retval -ne 0 ]]; then
+        if build_synapse -l $1 && build_hcl $1; then
+            pushd $HCL_ROOT
+            new=$(find src tests -iname "*.cpp" -or -iname "*.h" | xargs md5sum | md5sum)
+            popd
+            echo $new > /tmp/hcl.md5sum
+            rm /tmp/hcl.build_failed
+            return 0
+        else
+            echo "BUILD FAILED"
+            touch /tmp/hcl.build_failed
+            return 1
+        fi
+    fi
+}
+
+export PATH=$PATH:$HOME/.local/bin/hlctl
