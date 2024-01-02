@@ -214,7 +214,8 @@ do_rsync()
 
 s()
 {
-    host_list=$(/home/jschwarz/trees/npu-stack/gc_tools/hcl/server_arguments.py $@)
+    hostfile=$1
+    host_list=$(cat $hostfile | cut -d " " -f 1)
     host_count=$(echo $host_list | wc -w)
 
     if (( $host_count > 1 )); then
@@ -236,7 +237,7 @@ s()
     setopt sh_word_split
     tmux select-pane -t {top-left}
     for host in $host_list; do
-        tmux send-keys "sshpass -p Hab12345 ssh labuser@$host" Enter
+        tmux send-keys "ssh $host" Enter
         tmux select-pane -t {next}
     done
     unsetopt sh_word_split
