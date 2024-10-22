@@ -82,9 +82,9 @@ vim.opt.binary = true
 vim.opt.undofile = true
 vim.opt.backup = true
 vim.opt.swapfile = false
-vim.opt.undodir = "~/.config/nvim/tmp/undo/"
-vim.opt.backupdir = "~/.config/nvim/tmp/backup/"
-vim.opt.directory = "~/.config/nvim/tmp/swap/"
+vim.opt.undodir = vim.fs.normalize("~/.config/nvim/tmp/undo/")
+vim.opt.backupdir = vim.fs.normalize("~/.config/nvim/tmp/backup/")
+vim.opt.directory = vim.fs.normalize("~/.config/nvim/tmp/swap/")
 
 vim.opt.shortmess = vim.opt.shortmess + "c"
 vim.opt.signcolumn = "yes"
