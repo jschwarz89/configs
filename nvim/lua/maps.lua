@@ -56,6 +56,10 @@ nmap("<F3>", "<cmd>Telescope find_files<cr>")
 nmap("<F5>", "<cmd>Telescope live_grep<cr>")
 nmap("<leader>l", "<cmd>Telescope buffers<cr>")
 
+nmap("<F6>", "<cmd>CopilotChatToggle<cr>")
+vmap("<F6>", "<cmd>CopilotChatToggle<cr>")
+imap("<F6>", "<cmd>CopilotChatToggle<cr>")
+
 vim.api.nvim_create_user_command('Qa', "qa", {bang = true})
 vim.api.nvim_create_user_command('Q', ":q", {bang = true})
 vim.api.nvim_create_user_command('W', ":w", {bang = true})
@@ -133,6 +137,6 @@ nnoremap <silent> <Leader><Leader> :ZoomToggle<CR>]])
 
 
 nmap('gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-nmap('<leader>rn', '<cmd>Lspsaga rename ++project<CR>', opts)
 nmap('gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-nmap('<leader>e', '<cmd>Lspsaga show_line_diagnostics<CR>', opts)
+nmap('<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+nmap('K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)

@@ -9,6 +9,7 @@ require('packer').startup(function(use)
   use 'nvim-telescope/telescope.nvim'
 
   use 'EdenEast/nightfox.nvim'
+  use 'catppuccin/nvim'
 
   use 'lewis6991/gitsigns.nvim'
 
@@ -23,21 +24,20 @@ require('packer').startup(function(use)
   -- Auto completion
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/nvim-compe'
-  use 'glepnir/lspsaga.nvim'
 
   -- Airline
   use 'vim-airline/vim-airline'
   use 'vim-airline/vim-airline-themes'
+  use 'preservim/tagbar'
 
   -- tmux
   use 'christoomey/vim-tmux-navigator'
   use 'benmills/vimux'
   use 'tpope/vim-obsession'
 
-  use 'liuchengxu/graphviz.vim'
-
-  use 'MunifTanjim/nui.nvim'
-  use 'dense-analysis/neural'
+  -- copilot
+  use 'github/copilot.vim'
+  use 'CopilotC-Nvim/CopilotChat.nvim'
 end)
 
 -- Airline configuration
@@ -48,33 +48,8 @@ let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#left_sep = ' > '
 let g:airline#extensions#tabline#left_alt_sep = ' > '
 let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline#extensions#tagbar#enabled = 1
 ]])
-
--- Toggleterm
-require("toggleterm").setup{
-  -- size can be a number or function which is passed the current terminal
-  size = 20,
-  open_mapping = [[<F4>]],
-  hide_numbers = true, -- hide the number column in toggleterm buffers
-  shade_filetypes = {},
-  shade_terminals = true,
-  shading_factor = '1', -- the degree by which to darken to terminal colour, default: 1 for dark backgrounds, 3 for light
-  start_in_insert = true,
-  insert_mappings = true, -- whether or not the open mapping applies in insert mode
-  persist_size = true,
-  direction = 'float',
-  close_on_exit = true, -- close the terminal window when the process exits
-  shell = vim.o.shell, -- change the default shell
-  -- This field is only relevant if direction is set to 'float'
-}
-
-vim.cmd([[
-autocmd BufWinEnter,WinEnter term://* startinsert
-autocmd BufLeave term://* stopinsert
-]])
-
-vim.g.floaterm_keymap_toggle = '<F4>'
-vim.g.floaterm_shell = 'zsh'
 
 -- Telescope
 require('telescope').setup{
@@ -146,7 +121,7 @@ lspconfig.ccls.setup {
 require'lspconfig'.pyright.setup{}
 
 
--- Use an on_attach function to only map the following keys 
+-- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -226,28 +201,6 @@ vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 
 
-require('lspsaga').setup{
-  error_sign = '!',
-  warn_sign = '^',
-  hint_sign = '?',
-  infor_sign = '~',
-  border_style = "round",
-  code_action_prompt = {
-    enable = false
-  },
-  beacon = {
-    enable = false
-  },
-  symbol_in_winbar = {
-    enable = false,
-    separator = " > ",
-    hide_keyword = true,
-    show_file = false,
-    color_mode = true,
-  },
-}
-
-
 -- Toggleterm
 require("toggleterm").setup{
   -- size can be a number or function which is passed the current terminal
@@ -266,6 +219,13 @@ require("toggleterm").setup{
   -- This field is only relevant if direction is set to 'float'
 }
 
+vim.cmd([[
+autocmd BufWinEnter,WinEnter term://* startinsert
+autocmd BufLeave term://* stopinsert
+]])
+
+vim.g.floaterm_keymap_toggle = '<F4>'
+vim.g.floaterm_shell = 'zsh'
 
 -- Treesitter
 require'nvim-treesitter.configs'.setup {
@@ -337,18 +297,64 @@ require('gitsigns').setup {
     row = 0,
     col = 1
   },
-  yadm = {
-    enable = false
-  },
+  --yadm = {
+    --enable = false
+  --},
 }
 
-require('neural').setup({
-    mappings = {
-        prompt = '<Tab><space>',
+require("CopilotChat").setup
+{
+  auto_insert_mode = true, -- Automatically enter insert mode when opening window and on new prompt
+
+  -- default window options
+  window = {
+    layout = 'float', -- 'vertical', 'horizontal', 'float', 'replace'
+    width = 0.8, -- fractional width of parent, or absolute width in columns when > 1
+    height = 0.8, -- fractional height of parent, or absolute height in rows when > 1
+    -- Options below only apply to floating windows
+    relative = 'editor', -- 'editor', 'win', 'cursor', 'mouse'
+    border = 'single', -- 'none', single', 'double', 'rounded', 'solid', 'shadow'
+    row = nil, -- row position of the window, default is centered
+    col = nil, -- column position of the window, default is centered
+    title = 'Copilot Chat', -- title of chat window
+    footer = nil, -- footer of chat window
+    zindex = 1, -- determines if window is on top or below other floating windows
+  },
+
+  -- default mappings
+  mappings = {
+    complete = {
+      detail = 'Use @<Tab> or /<Tab> for options.',
+      insert ='<Tab>',
     },
-    source = {
-        openai = {
-            api_key = "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",
-        },
+    close = {
+      normal = 'q',
+      insert = '<C-c>'
     },
-})
+    reset = {
+      normal ='<C-l>',
+      insert = '<C-l>'
+    },
+    submit_prompt = {
+      normal = '<CR>',
+      insert = '<C-s>'
+    },
+    accept_diff = {
+      normal = '<C-y>',
+      insert = '<C-y>'
+    },
+    yank_diff = {
+      normal = 'gy',
+      register = '"',
+    },
+    show_diff = {
+      normal = 'gd'
+    },
+    show_system_prompt = {
+      normal = 'gp'
+    },
+    show_user_selection = {
+      normal = 'gs'
+    },
+  }
+}

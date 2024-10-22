@@ -10,11 +10,34 @@ vim.g.cpp_posix_standard = 1
 
 vim.opt.termguicolors = true
 vim.opt.background = "dark"
---vim.g.gruvbox_contrast_dark = "hard"
---vim.g.gruvbox_italic = 1
---vim.cmd([[colorscheme gruvbox]])
+
+require('nightfox').setup({
+  options = {
+    transparent = false,     -- Disable setting background
+    terminal_colors = true,  -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
+    dim_inactive = false,    -- Non focused panes set to alternative background
+    module_default = true,   -- Default enable value for modules
+    styles = {               -- Style to be applied to different syntax groups
+      comments = "italic",     -- Value is any valid attr-list value `:help attr-list`
+      conditionals = "NONE",
+      constants = "NONE",
+      functions = "NONE",
+      keywords = "NONE",
+      numbers = "NONE",
+      operators = "NONE",
+      strings = "NONE",
+      types = "NONE",
+      variables = "NONE",
+    },
+  },
+  palettes = {
+    carbonfox = {
+      bg1 = "#070707",
+    },
+  },
+})
+
 vim.cmd([[colorscheme carbonfox]])
---vim.cmd([[colorscheme tundra]])
 
 vim.opt.exrc = true
 vim.opt.secure = true
@@ -98,6 +121,7 @@ augroup END
 --]])
 
 -- Colors for 120-chars-per-line column
+vim.opt.cursorline = true
 vim.cmd([[
 let &colorcolumn="119"
 au BufRead,BufNewFile *.c,*.cpp,*.h,*.hpp let &colorcolumn="120"
@@ -108,7 +132,16 @@ highlight LineNr ctermfg=grey
 " Colors for sign column (pyflakes)
 highlight SignColumn ctermbg=red
 highlight SignColumn ctermfg=white
+highlight CursorLine guibg=#101010
 ]])
 
 -- Remember position
 vim.cmd([[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif]])
+
+-- Set trailing line marking, except for insert mode
+vim.cmd([[
+highlight Trailing guibg=red
+match Trailing / \+$/
+autocmd InsertEnter * match Trailing //
+autocmd InsertLeave * match Trailing / \+$/
+]])
