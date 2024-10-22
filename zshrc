@@ -253,7 +253,7 @@ export MPARAMS="${MPARAMS} reset_on_lockup=1 timeout_locked=400 bfe_dram_enable=
 export MPARAMS="${MPARAMS} bfe_mme_mask=0 bfe_tpc_mask=0x0 bfe_rotator_mask=0x0 bfe_decoder_mask=0x0"
 export MPARAMS="${MPARAMS} bfe_axi_drain=1 bfe_dram_scrambler_enable=0"
 export MPARAMS="${MPARAMS} bfe_sram_scrambler_enable=0 bfe_security_enable=0"
-export EXTRA_CMAKE_FLAGS="-DCMAKE_EXPORT_COMPILE_COMMANDS=true"
+export EXTRA_CMAKE_FLAGS="-DCMAKE_EXPORT_COMPILE_COMMANDS=true -DCMAKE_COLOR_DIAGNOSTICS=ON"
 alias cmake="cmake ${EXTRA_CMAKE_FLAGS}"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
