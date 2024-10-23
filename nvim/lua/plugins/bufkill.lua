@@ -1,1 +1,1 @@
-  return {"qpkorr/vim-bufkill"}
+  return { "qpkorr/vim-bufkill" }

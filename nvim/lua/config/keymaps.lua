@@ -41,15 +41,15 @@ imap("<left>", "<nop>")
 imap("<right>", "<nop>")
 
 -- Airline configuration
-nmap("<leader>1", "<Plug>AirlineSelectTab1")
-nmap("<leader>2", "<Plug>AirlineSelectTab2")
-nmap("<leader>3", "<Plug>AirlineSelectTab3")
-nmap("<leader>4", "<Plug>AirlineSelectTab4")
-nmap("<leader>5", "<Plug>AirlineSelectTab5")
-nmap("<leader>6", "<Plug>AirlineSelectTab6")
-nmap("<leader>7", "<Plug>AirlineSelectTab7")
-nmap("<leader>8", "<Plug>AirlineSelectTab8")
-nmap("<leader>9", "<Plug>AirlineSelectTab9")
+nmap("<leader>1", "<Cmd>lua require('bufferline').go_to(1, true)<CR>")
+nmap("<leader>2", "<Cmd>lua require('bufferline').go_to(2, true)<CR>")
+nmap("<leader>3", "<Cmd>lua require('bufferline').go_to(3, true)<CR>")
+nmap("<leader>4", "<Cmd>lua require('bufferline').go_to(4, true)<CR>")
+nmap("<leader>5", "<Cmd>lua require('bufferline').go_to(5, true)<CR>")
+nmap("<leader>6", "<Cmd>lua require('bufferline').go_to(6, true)<CR>")
+nmap("<leader>7", "<Cmd>lua require('bufferline').go_to(7, true)<CR>")
+nmap("<leader>8", "<Cmd>lua require('bufferline').go_to(8, true)<CR>")
+nmap("<leader>9", "<Cmd>lua require('bufferline').go_to(9, true)<CR>")
 
 -- Telescope
 nmap("<F3>", "<cmd>Telescope find_files<cr>")
@@ -57,8 +57,8 @@ nmap("<F5>", "<cmd>Telescope live_grep<cr>")
 nmap("<leader>l", "<cmd>Telescope buffers<cr>")
 
 nmap("<F6>", "<cmd>CopilotChatToggle<cr>")
-vmap("<F6>", "<cmd>CopilotChatToggle<cr>")
-imap("<F6>", "<cmd>CopilotChatToggle<cr>")
+
+nmap("<F4>", "<cmd>ToggleTerm<cr>")
 
 vim.api.nvim_create_user_command('Qa', "qa", {bang = true})
 vim.api.nvim_create_user_command('Q', ":q", {bang = true})

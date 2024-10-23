@@ -1,13 +1,10 @@
 return {
-  {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    branch = "canary",
+    "github/copilot.vim", -- or github/copilot.vim
+    lazy = false,
     dependencies = {
-        { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
-        { "zbirenbaum/copilot-cmp" },
+        { "CopilotC-Nvim/CopilotChat.nvim"},
         { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
     },
-    --build = "make tiktoken", -- Only on MacOS or Linux
     config = function()
         require("CopilotChat").setup
         {
@@ -66,5 +63,4 @@ return {
             }
         }
     end,
-  }
 }

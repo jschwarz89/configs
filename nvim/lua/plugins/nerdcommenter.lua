@@ -1,3 +1,5 @@
 return {
-  'scrooloose/nerdcommenter'
-  }
+    'scrooloose/nerdcommenter',
+    lazy = true,
+    event = { "InsertEnter" },
+}

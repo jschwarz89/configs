@@ -13,6 +13,7 @@ return {
                 "go",
                 "json",
                 "bash",
+                "diff",
             },
             sync_install = false,
             auto_install = false,
