@@ -40,16 +40,31 @@ imap("<down>", "<nop>")
 imap("<left>", "<nop>")
 imap("<right>", "<nop>")
 
--- Airline configuration
-nmap("<leader>1", "<Cmd>lua require('bufferline').go_to(1, true)<CR>")
-nmap("<leader>2", "<Cmd>lua require('bufferline').go_to(2, true)<CR>")
-nmap("<leader>3", "<Cmd>lua require('bufferline').go_to(3, true)<CR>")
-nmap("<leader>4", "<Cmd>lua require('bufferline').go_to(4, true)<CR>")
-nmap("<leader>5", "<Cmd>lua require('bufferline').go_to(5, true)<CR>")
-nmap("<leader>6", "<Cmd>lua require('bufferline').go_to(6, true)<CR>")
-nmap("<leader>7", "<Cmd>lua require('bufferline').go_to(7, true)<CR>")
-nmap("<leader>8", "<Cmd>lua require('bufferline').go_to(8, true)<CR>")
-nmap("<leader>9", "<Cmd>lua require('bufferline').go_to(9, true)<CR>")
+-- Bufferline configuration
+nmap("<leader>1", "<Cmd>BufferLineGoToBuffer 1<CR>")
+nmap("<leader>2", "<Cmd>BufferLineGoToBuffer 2<CR>")
+nmap("<leader>3", "<Cmd>BufferLineGoToBuffer 3<CR>")
+nmap("<leader>4", "<Cmd>BufferLineGoToBuffer 4<CR>")
+nmap("<leader>5", "<Cmd>BufferLineGoToBuffer 5<CR>")
+nmap("<leader>6", "<Cmd>BufferLineGoToBuffer 6<CR>")
+nmap("<leader>7", "<Cmd>BufferLineGoToBuffer 7<CR>")
+nmap("<leader>8", "<Cmd>BufferLineGoToBuffer 8<CR>")
+nmap("<leader>9", "<Cmd>BufferLineGoToBuffer 9<CR>")
+--nmap("<leader>1", "<Cmd>lua require('bufferline').go_to(1, true)<CR>")
+--nmap("<leader>2", "<Cmd>lua require('bufferline').go_to(2, true)<CR>")
+--nmap("<leader>3", "<Cmd>lua require('bufferline').go_to(3, true)<CR>")
+--nmap("<leader>4", "<Cmd>lua require('bufferline').go_to(4, true)<CR>")
+--nmap("<leader>5", "<Cmd>lua require('bufferline').go_to(5, true)<CR>")
+--nmap("<leader>6", "<Cmd>lua require('bufferline').go_to(6, true)<CR>")
+--nmap("<leader>7", "<Cmd>lua require('bufferline').go_to(7, true)<CR>")
+--nmap("<leader>8", "<Cmd>lua require('bufferline').go_to(8, true)<CR>")
+--nmap("<leader>9", "<Cmd>lua require('bufferline').go_to(9, true)<CR>")
+
+nmap("<leader>`", "<Cmd>BufferLineCyclePrev<CR>")
+nmap("<leader>0", "<Cmd>BufferLineCycleNext<CR>")
+
+nmap("<C-PageUp>", "<Cmd>BufferLineMoveNext<CR>")
+nmap("<C-PageDown>", "<Cmd>BufferLineMovePrev<CR>")
 
 -- Telescope
 nmap("<F3>", "<cmd>Telescope find_files<cr>")
@@ -57,6 +72,7 @@ nmap("<F5>", "<cmd>Telescope live_grep<cr>")
 nmap("<leader>l", "<cmd>Telescope buffers<cr>")
 
 nmap("<F6>", "<cmd>CopilotChatToggle<cr>")
+vmap("<F6>", "<cmd>CopilotChatToggle<cr>")
 
 nmap("<F4>", "<cmd>ToggleTerm<cr>")
 

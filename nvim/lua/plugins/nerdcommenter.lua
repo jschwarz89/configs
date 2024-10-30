@@ -1,5 +1,5 @@
 return {
     'scrooloose/nerdcommenter',
     lazy = true,
-    event = { "InsertEnter" },
+    event = { "BufReadPre", "BufNewFile" },
 }

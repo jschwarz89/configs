@@ -1,5 +1,5 @@
 return {
-    "github/copilot.vim", -- or github/copilot.vim
+    "github/copilot.vim",
     lazy = false,
     dependencies = {
         { "CopilotC-Nvim/CopilotChat.nvim"},
