@@ -19,6 +19,8 @@ typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
 CASE_SENSITIVE="true"
 
 plugins=(common-aliases macos ssh-agent zsh-autosuggestions)
+#source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 source $ZSH/oh-my-zsh.sh
 
@@ -52,7 +54,7 @@ export EDITOR='nvim'
 
 # Private stuff :)
 export PATH="$PATH:/home/jschwarz/configs/powerline.git/scripts/:/home/jschwarz/configs/ccls/Release"
-export GREP_COLOR="1;31"
+export GREP_COLOR="mt=1;31"
 
 if [ `uname` = "Darwin" ]; then
     export TERM=xterm-256color
@@ -82,21 +84,13 @@ alias gnome-terminal='dbus-launch gnome-terminal'
 alias make='make -j 5'
 alias catkin='intercept-build --append catkin'
 
-source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 unset LC_CTYPE
 
 export SVN_EDITOR="nvim"
 
 export LANG=en_US.UTF-8
 
-# Habana stuff
-source $HOME/trees/npu-stack/automation/habana_scripts/habana_env
-
-alias hl-lspci='lspci -d 1da3:'
-alias tkdb='rm -rf /tmp/sw_kernels_build_test ; jfrog rt dl --fail-no-op --sort-by=created --sort-order=desc --limit=1 --props '\''buildType=Release;release_branch=master;OS=ubuntu18.04'\'' habanalabs-bin-local/sw_kernels_build_test/ /tmp/ ; pushd /tmp/sw_kernels_build_test/ ; tar xf sw_kernels_build_test-*.tar.gz ; cp libtpc_kernels.so $GC_KERNEL_PATH ; popd'
 alias git-review="git-review -r origin"
-alias jlog='_jlog(){ curl -X GET --user jschwarz\:1193a1bbf2483f4000d2c7600f25002fa3 "$1" > /tmp/jlog.txt; }; _jlog'
-export PYTHONPATH=$PYTHONPATH:$HABANA_PY_QA_ROOT
 export CFLAGS="$CFLAGS -fdiagnostics-color=auto"
 export CXXFLAGS="$CXXFLAGS -fdiagnostics-color=auto"
 
