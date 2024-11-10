@@ -6,7 +6,7 @@ return {
             options = {
                 mode = "buffers", -- set to "tabs" to only show tabpages instead
                 themable = true, -- allows highlight groups to be overriden i.e. sets highlights as default
-                numbers = "buffer_id",-- | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
+                numbers = "ordinal",-- | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
                 close_command = "BD! %d",       -- can be a string | function, | false see "Mouse actions"
                 right_mouse_command = "BD! %d", -- can be a string | function | false, see "Mouse actions"
                 left_mouse_command = "buffer %d",    -- can be a string | function, | false see "Mouse actions"
