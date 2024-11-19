@@ -10,6 +10,7 @@ local config = function()
 		sections = {
 			lualine_a = { "mode" },
 			lualine_b = { "branch", "diff", "diagnostics" },
+			lualine_c = { { "filename", path = 1 } },
 			lualine_x = {
 				"encoding",
 				"filetype",
@@ -22,6 +23,9 @@ local config = function()
 			},
 			lualine_y = { "progress" },
 			lualine_z = { "location" },
+		},
+		inactive_sections = {
+			lualine_c = { { "filename", path = 1 } },
 		},
 	})
 end
