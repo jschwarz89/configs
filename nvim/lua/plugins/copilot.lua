@@ -1,10 +1,12 @@
 return {
-    "github/copilot.vim",
+	"CopilotC-Nvim/CopilotChat.nvim",
+	branch = "main",
     lazy = false,
     dependencies = {
-        { "CopilotC-Nvim/CopilotChat.nvim"},
+		{ "github/copilot.vim" },
         { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
     },
+    build = "make tiktoken",
     config = function()
         require("CopilotChat").setup
         {
@@ -54,10 +56,10 @@ return {
                 show_diff = {
                     normal = 'gd'
                 },
-                show_system_prompt = {
+                show_info = {
                     normal = 'gp'
                 },
-                show_user_selection = {
+                show_context = {
                     normal = 'gs'
                 },
             }

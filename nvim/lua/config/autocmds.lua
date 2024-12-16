@@ -1,8 +1,8 @@
 vim.cmd([[
 augroup rnumber
     au!
-    au WinLeave,FocusLost * setlocal norelativenumber expandtab
-    au WinEnter,FocusGained * setlocal relativenumber expandtab
+    au WinLeave,FocusLost * setlocal norelativenumber
+    au WinEnter,FocusGained * setlocal relativenumber
 augroup END
 ]])
 

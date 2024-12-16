@@ -8,3 +8,5 @@ vim/.init.vim-rplugin~
 
 powerline.git
 tmux.git
+
+nvim/tmp/*

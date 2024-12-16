@@ -52,7 +52,6 @@ vim.opt.cindent = true
 vim.opt.cino = "L-1,:0,t0,i8,g0,N-4,(0,U1,m1,W4"
 vim.opt.cink = vim.opt.cink + "*"
 vim.opt.eol = false
-vim.opt.binary = true
 
 vim.opt.undofile = true
 vim.opt.backup = true
@@ -66,9 +65,9 @@ vim.opt.signcolumn = "yes"
 vim.opt.updatetime = 300
 vim.opt.hidden = true
 
-vim.opt.expandtab = true
-
 vim.opt.number = true
 vim.opt.relativenumber = true
 
 vim.opt.cursorline = true
+
+vim.opt.completeopt = "noinsert,popup"

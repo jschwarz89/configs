@@ -63,8 +63,8 @@ nmap("<leader>9", "<Cmd>BufferLineGoToBuffer 9<CR>")
 nmap("<leader>`", "<Cmd>BufferLineCyclePrev<CR>")
 nmap("<leader>0", "<Cmd>BufferLineCycleNext<CR>")
 
-nmap("<C-PageUp>", "<Cmd>BufferLineMoveNext<CR>")
-nmap("<C-PageDown>", "<Cmd>BufferLineMovePrev<CR>")
+nmap("<C-PageUp>", "<Cmd>BufferLineMovePrev<CR>")
+nmap("<C-PageDown>", "<Cmd>BufferLineMoveNext<CR>")
 
 -- Telescope
 nmap("<F3>", "<cmd>Telescope find_files<cr>")
