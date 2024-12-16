@@ -19,8 +19,8 @@ typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
 CASE_SENSITIVE="true"
 
 plugins=(common-aliases macos ssh-agent zsh-autosuggestions)
-#source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 source $ZSH/oh-my-zsh.sh
 
@@ -65,6 +65,7 @@ alias grep='grep --color=auto'
 # Add --nogroup to simulate find | grep
 alias fa='ag -U'
 alias fp='ag --python --ignore-dir tests'
+alias fpg='ag --go --ignore "*_test*" --ignore "*mock*"'
 alias fpa='ag --python'
 alias fc='ag --cc'
 alias fcc='ag --cpp'
@@ -124,3 +125,6 @@ export GO111MODULE=on
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+alias zafran=/home/john/zafran-app/local_env.sh
+export GOPRIVATE="zf.rn/*"
