@@ -1,11 +1,10 @@
 // -*- mode: jsonc -*-
-{
-  //"layer": "top", // Waybar at top layer
-  "height": 40,
-  "modules-left": ["hyprland/workspaces", "hyprland/window"],
-  "modules-right": ["tray", "group/hw", "group/control", "custom/clock"],
+[{
+  "output": "DP-3",
+  "modules-left": ["hyprland/workspaces"],
+  "modules-right": ["custom/clock"],
 
-  // Modules configuratio1
+  // Modules configuration
   "hyprland/workspaces": {
     "active-only": false,
     "sort-by-number": true,
@@ -20,7 +19,10 @@
         "title<.*youtube.*>": "",
         "class<google-chrome>": "",
         "class<kitty>": "",
+        "class<slack>": "",
+        "class<vlc>": "󰕼"
     },
+    "move-to-monitor": true,
   },
   "hyprland/window": {
     "icon": true,
@@ -31,13 +33,59 @@
         "(.*) - Google Chrome": "Google Chrome [$1]",
     }
   },
+  "custom/clock": {
+    "exec": "date +'%d/%m/%y %H:%M:%S'",
+    "interval": 1
+  },
+},
+{
+  //"layer": "top", // Waybar at top layer
+  "height": 40,
+  "output": ["eDP-1", "DP-1", "HDMI-A-1"],
+  "modules-left": ["hyprland/workspaces", "hyprland/window"],
+  "modules-right": ["tray", "hyprland/language", "group/hw", "group/control", "custom/clock"],
+
+  // Modules configuration
+  "hyprland/workspaces": {
+    "active-only": false,
+    "sort-by-number": true,
+    "on-click": "activate",
+    "all-outputs": true,
+    "format": "{id} {windows}",
+    //"format-icons": {
+      //"active": "󰮯",
+      //"default": "•",
+    //},
+    "window-rewrite": {
+        "title<.*youtube.*>": "",
+        "class<google-chrome>": "",
+        "class<kitty>": "",
+        "class<slack>": "",
+        "class<vlc>": "󰕼"
+    },
+    "move-to-monitor": true,
+  },
+  "hyprland/window": {
+    "icon": true,
+    "rewrite": {
+        "nvim ([^ ]+).*": "nvim",
+        "narf": "kitty",
+        "john@narf.*": "kitty",
+        "(.*) - Google Chrome": "Google Chrome",
+        "(.*) - Slack": "Slack",
+    }
+  },
   "tray": {
     "icon-size": 15,
     "spacing": 8,
   },
+  "hyprland/language": {
+	"format-en": "<span color='#b2ccd6'></span>  en",
+	"format-he": "<span color='#b2ccd6'></span>  he",
+  },
   "group/hw": {
     "orientation": "horizontal",
-    "modules": ["cpu", "temperature", "memory"],
+    "modules": ["cpu", "temperature", "disk", "memory"],
   },
   "cpu": {
     "format": "<span color='#b2ccd6'>󰍛</span> {usage}%",
@@ -46,6 +94,11 @@
   },
   "temperature": {
     "format": "<span color='#f07178'></span> {temperatureC}󰔄",
+    "interval": 2,
+    "on-click": "kitty btop",
+  },
+  "disk": {
+    "format": " <span color='#a0eb93'></span> {percentage_used}%",
     "interval": 2,
     "on-click": "kitty btop",
   },
@@ -72,7 +125,7 @@
   },
   "network": {
     "format-ethernet": "<span color='#89ddff'>󰈀</span> {bandwidthDownBytes:=}",
-    "format-wifi": "<span color='#89ddff'>{icon}</span> {bandwidthDownBytes:=}",
+    "format-wifi": " <b>{essid}</b> <span color='#89ddff'>{icon}</span> {bandwidthDownBytes:=}",
     "format-disconnected": "<span color='#89ddff'>󰤭</span> {bandwidthDownBytes:=}",
     "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
     "interval": 2,
@@ -104,4 +157,4 @@
         "exec": "date +'%d/%m/%y %H:%M:%S'",
         "interval": 1
     },
-}
+}]

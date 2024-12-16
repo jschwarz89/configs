@@ -4,6 +4,7 @@
 @define-color bg1 #212121;
 @define-color fg0 #eeffff;
 @define-color yellow #ffcb6b;
+@define-color blue #33ccff;
 
 * {
   font-family: JetBrainsMono Nerd Font Propo;
@@ -19,8 +20,22 @@ window#waybar {
   color: @fg0; /* didn't affect workspaces */
 }
 
+#language {
+  background-color: @bg1;
+  padding: 0px 4px;
+  /* margin: 4px 4px 4px 8px; */
+  margin: 8px 4px 0px 8px;
+  border-color: @blue;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 18px;
+}
+
 #workspaces {
   background-color: @bg1;
+  border-color: @blue;
+  border-width: 2px;
+  border-style: solid;
   border-radius: 18px;
   padding: 0px 4px;
   /* margin: 4px 4px 4px 8px; */
@@ -38,6 +53,9 @@ window#waybar {
 
 #window {
   background-color: @bg1;
+  border-color: @blue;
+  border-width: 2px;
+  border-style: solid;
   border-radius: 18px;
   padding: 0px 16px;
   /* margin: 4px; */
@@ -51,6 +69,9 @@ window#waybar.empty #window {
 
 #tray {
   background-color: @bg1;
+  border-color: @blue;
+  border-width: 2px;
+  border-style: solid;
   border-radius: 18px;
   padding: 0px 16px;
   /* margin: 4px; */
@@ -59,6 +80,9 @@ window#waybar.empty #window {
 
 #hw {
   background-color: @bg1;
+  border-color: @blue;
+  border-width: 2px;
+  border-style: solid;
   border-radius: 18px;
   padding: 0px 16px;
   /* margin: 4px; */
@@ -79,6 +103,9 @@ window#waybar.empty #window {
 
 #control {
   background-color: @bg1;
+  border-color: @blue;
+  border-width: 2px;
+  border-style: solid;
   border-radius: 18px;
   padding: 0px 16px;
   /* margin: 4px; */
@@ -103,8 +130,11 @@ window#waybar.empty #window {
 
 #custom-clock,
 #clock {
-  background-color: @bg1;
+  border-color: @blue;
+  border-width: 2px;
+  border-style: solid;
   border-radius: 18px;
+  background-color: @bg1;
   padding: 0px 16px;
   /* margin: 4px 8px 4px 4px; */
   margin: 8px 8px 0px 4px;
